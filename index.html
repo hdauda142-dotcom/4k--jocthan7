@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>4K Jocthan7</title>
+  <meta name="description" content="Download music, videos and movies. Advertise with 4K Jocthan7.">
+  <style>
+    :root{
+      --bg:#0b0f12; --card:#0f1418; --muted:#9aa6b2; --accent:#00d084; --glass: rgba(255,255,255,0.03);
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef3;background:linear-gradient(180deg,#071018 0%, #08121a 100%);}
+    .wrap{max-width:var(--maxw);margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#0fffc3 0%, #00b39f 100%);display:flex;align-items:center;justify-content:center;font-weight:700;color:#062426}
+    h1{font-size:20px;margin:0}
+    .searchbar{flex:1;margin-left:18px}
+    .searchbar input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit}
+    nav.tabs{display:flex;gap:8px;margin:18px 0}
+    .tab{padding:10px 14px;border-radius:10px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer}
+    .tab.active{background:linear-gradient(90deg,rgba(0,208,132,0.08), rgba(0,156,120,0.04));color:var(--accent);border-color:rgba(0,208,132,0.12)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px}
+    .thumb{width:100%;height:150px;border-radius:8px;background-size:cover;background-position:center}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .title{font-weight:600}
+    .sub{color:var(--muted);font-size:13px}
+    .actions{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .btn.download{background:linear-gradient(90deg,var(--accent),#00b39f);color:#00261a}
+    .btn.play{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    .pager{display:flex;justify-content:center;gap:8px;margin:20px 0}
+    .pager button{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
+    footer{text-align:center;color:var(--muted);margin-top:22px;font-size:13px}
+    .advert{grid-column:1/-1;padding:12px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);border:1px dashed rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:space-between}
+    @media (max-width:600px){.brand h1{font-size:16px}.thumb{height:120px}.searchbar{margin-left:10px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">4K</div>
+        <div>
+          <h1>4K Jocthan7</h1>
+          <div class="sub">Download music, videos & movies — Advertise with us</div>
+        </div>
+      </div>
+
+      <div class="searchbar" role="search">
+        <input id="searchInput" placeholder="Search songs, artists, movies..." aria-label="Search">
+      </div>
+
+      <div style="margin-left:12px">
+        <button id="uploadBtn" class="tab" title="Advertise / Upload">Advertise</button>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Categories">
+      <button class="tab active" data-cat="all">Trending</button>
+      <button class="tab" data-cat="music">Music</button>
+      <button class="tab" data-cat="videos">Videos</button>
+      <button class="tab" data-cat="movies">Movies</button>
+      <button class="tab" data-cat="ads">Advertise</button>
+    </nav>
+
+    <main>
+      <section id="results" class="grid" aria-live="polite"></section>
+
+      <div class="pager" id="pager"></div>
+
+      <div class="advert" id="adBlock">
+        <div>
+          <strong>Advertise on 4K Jocthan7</strong>
+          <div class="sub">Reach thousands of music lovers. Contact: support@4kjocthan7.com</div>
+        </div>
+        <div>
+          <button class="btn" onclick="openAdvertForm()">Get featured</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>© <span id="year"></span> 4K Jocthan7 — Built for promos & legal downloads.</footer>
+  </div>
+
+  <script>
+    // Replace DRIVE_FILE_ID_x with your file IDs (or full direct links)
+    const ITEMS = [
+      {id:1, title:'Jocthan7 - Rise (Official)', artist:'Jocthan7', type:'music', thumb:'https://picsum.photos/seed/1/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_1'},
+      {id:2, title:'4K Visuals - Night Vibes', artist:'Various', type:'videos', thumb:'https://picsum.photos/seed/2/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_2'},
+      {id:3, title:'City Life (Short Movie)', artist:'Indie Studio', type:'movies', thumb:'https://picsum.photos/seed/3/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_3'},
+      {id:4, title:'Top Hit ft. Guest', artist:'Star Artist', type:'music', thumb:'https://picsum.photos/seed/4/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_4'},
+      {id:5, title:'Lo-fi Chill', artist:'Beats Co', type:'music', thumb:'https://picsum.photos/seed/5/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_5'},
+      {id:6, title:'Action Trailer 4K', artist:'Studio X', type:'videos', thumb:'https://picsum.photos/seed/6/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_6'},
+      {id:7, title:'Retro Nights', artist:'Vintage', type:'music', thumb:'https://picsum.photos/seed/7/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_7'},
+      {id:8, title:'Documentary 2024', artist:'Doc Makers', type:'movies', thumb:'https://picsum.photos/seed/8/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_8'},
+      {id:9, title:'Sunset Music Video', artist:'Artist Z', type:'videos', thumb:'https://picsum.photos/seed/9/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_9'},
+      {id:10, title:'Hit Single', artist:'Fresh', type:'music', thumb:'https://picsum.photos/seed/10/600/400', downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_10'}
+    ];
+
+    const PAGE_SIZE = 6;
+    let state = {query:'', cat:'all', page:1};
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tabs
+    document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click', e=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      btn.classList.add('active');
+      state.cat = btn.dataset.cat || 'all';
+      state.page = 1;
+      render();
+    }));
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', e=>{
+      state.query = e.target.value.trim().toLowerCase();
+      state.page = 1;
+      render();
+    });
+
+    // Render function
+    function filterItems(){
+      return ITEMS.filter(item=>{
+        if(state.cat !== 'all' && item.type !== state.cat) return false;
+        if(state.query){
+          const hay = (item.title + ' ' + item.artist + ' ' + item.type).toLowerCase();
+          return hay.includes(state.query);
+        }
+        return true;
+      });
+    }
+
+    function render(){
+      const results = document.getElementById('results');
+      const pager = document.getElementById('pager');
+      results.innerHTML = '';
+      const filtered = filterItems();
+      const total = filtered.length;
+      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      if(state.page > pages) state.page = pages;
+      const start = (state.page - 1) * PAGE_SIZE;
+      const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+      // Show items
+      pageItems.forEach(it=>{
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="thumb" style="background-image:url('${it.thumb}')" role="img" aria-label="${escapeHtml(it.title)}"></div>
+          <div class="meta">
+            <div>
+              <div class="title">${escapeHtml(it.title)}</div>
+              <div class="sub">${escapeHtml(it.artist)} • ${escapeHtml(capitalize(it.type))}</div>
+            </div>
+            <div class="actions">
+              <button class="btn play" onclick="preview('${encodeURIComponent(it.downloadUrl)}')">Preview</button>
+              <button class="btn download" onclick="downloadItem('${encodeURIComponent(it.downloadUrl)}', ${it.id})">Download</button>
+            </div>
+          </div>
+        `;
+        results.appendChild(el);
+      });
+
+      // Pagination controls
+      pager.innerHTML = '';
+      const prev = document.createElement('button'); prev.textContent = 'Previous'; prev.disabled = state.page === 1;
+      prev.addEventListener('click', ()=>{ state.page--; render(); });
+      pager.appendChild(prev);
+
+      const info = document.createElement('div'); info.textContent = `Page ${state.page} of ${pages} — ${total} items`;
+      info.style.alignSelf = 'center'; info.style.color = 'var(--muted)'; info.style.padding = '6px 10px';
+      pager.appendChild(info);
+
+      const next = document.createElement('button'); next.textContent = 'Next'; next.disabled = state.page === pages;
+      next.addEventListener('click', ()=>{ state.page++; render(); });
+      pager.appendChild(next);
+
+      // If no items
+      if(filtered.length === 0){
+        results.innerHTML = `<div class="card" style="grid-column:1/-1"><div style="padding:8px;color:var(--muted)">No results found.</div></div>`;
+      }
+    }
+
+    // Utilities
+    function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+    function escapeHtml(s){return String(s).replace(/[&<>\"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":"&#39;"}[c]});}
+
+    // Preview opens the file in a new tab (Drive preview or hosted link)
+    function preview(encodedUrl){
+      const url = decodeURIComponent(encodedUrl);
+      window.open(url, '_blank');
+    }
+
+    // Download opens the download link — for Drive use uc?export=download or direct link
+    function downloadItem(encodedUrl, id){
+      const url = decodeURIComponent(encodedUrl);
+      console.log('download', id, url);
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    // Advert upload placeholder
+    function openAdvertForm(){
+      const mail = 'mailto:support@4kjocthan7.com?subject=Advert%20Enquiry';
+      window.location.href = mail;
+    }
+
+    // init
+    render();
+  </script>
+</body>
+</html>
