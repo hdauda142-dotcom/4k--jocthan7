@@ -137,7 +137,8 @@
       state.query = e.target.value.trim().toLowerCase();
       state.page = 1;
       render();
-    });// When user taps search button
+    });
+    // When user taps search button
 document.getElementById('searchBtn').addEventListener('click', ()=>{
   state.query = document.getElementById('searchInput').value.trim().toLowerCase();
   state.page = 1;
