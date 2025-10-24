@@ -1,194 +1,448 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>4K Jocthan7</title>
-  <meta name="description" content="Download music, videos and movies. Advertise with 4K Jocthan7.">
-  <style>
-    :root{
-      --bg:#0b0f12; --card:#0f1418; --muted:#9aa6b2; --accent:#00d084; --glass: rgba(255,255,255,0.03);
-      --maxw:1100px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef3;background:linear-gradient(180deg,#071018 0%, #08121a 100%);}
-    .wrap{max-width:var(--maxw);margin:28px auto;padding:20px}
-    header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#0fffc3 0%, #00b39f 100%);display:flex;align-items:center;justify-content:center;font-weight:700;color:#062426}
-    h1{font-size:20px;margin:0}
-    .sub{color:var(--muted);font-size:13px}
-    .searchbar{flex:1;display:flex;align-items:center;gap:8px;min-width:260px}
-    .searchbar input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit}
-    .searchbar button{padding:10px 14px;border-radius:10px;background:var(--accent);border:none;color:#00261a;font-weight:600;cursor:pointer}
-    nav.tabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
-    .tab{padding:10px 14px;border-radius:10px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer}
-    .tab.active{background:linear-gradient(90deg,rgba(0,208,132,0.08), rgba(0,156,120,0.04));color:var(--accent);border-color:rgba(0,208,132,0.12)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .card{background:var(--card);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px;transition:transform .2s}
-    .card:hover{transform:translateY(-4px)}
-    .thumb{width:100%;height:160px;border-radius:8px;background-size:cover;background-position:center}
-    .meta{display:flex;justify-content:space-between;align-items:center}
-    .title{font-weight:600}
-    .actions{display:flex;gap:8px}
-    .btn{padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
-    .btn.download{background:linear-gradient(90deg,var(--accent),#00b39f);color:#00261a;border:none}
-    .btn.play{background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--muted)}
-    .pager{display:flex;justify-content:center;gap:8px;margin:20px 0}
-    .pager button{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
-    footer{text-align:center;color:var(--muted);margin-top:22px;font-size:13px}
-    .advert{grid-column:1/-1;padding:12px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);border:1px dashed rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:space-between}
-    @media (max-width:600px){.brand h1{font-size:16px}.thumb{height:120px}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SurePlay — Premium Betting</title>
+<meta name="description" content="SurePlay demo — black & gold betting UI" />
+<style>
+  /* ========== Theme (Black & Gold) ========== */
+  :root{
+    --bg:#070608;
+    --panel:#0f0f10;
+    --muted:#bfb8ae;
+    --gold-1:#d4af37;
+    --gold-2:#ffd66b;
+    --glass: rgba(255,255,255,0.03);
+    --accent: linear-gradient(90deg,var(--gold-1),var(--gold-2));
+    --maxw:1100px;
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:radial-gradient(1200px 500px at 10% 10%, rgba(255,212,120,0.03), transparent), var(--bg); color:#fff}
+  a{color:var(--gold-2); text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:18px}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#111,#0b0b0b);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--gold-1);font-size:18px;border:1px solid rgba(255,215,120,0.06)}
+  h1{margin:0;font-size:20px;letter-spacing:0.6px}
+  .balance{color:var(--muted);font-size:13px}
+  nav.top-actions{display:flex;gap:8px;align-items:center}
+  .btn{padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+  .btn.primary{background:var(--gold-1); color:#0a0a0a}
+  .searchbar{min-width:260px;max-width:420px;flex:1;margin:10px 0}
+  .searchbar input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:var(--glass);color:inherit}
+
+  /* Tabs */
+  .tabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
+  .tab{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.02);color:var(--muted);cursor:pointer}
+  .tab.active{background:var(--panel);color:var(--gold-2);box-shadow:0 4px 18px rgba(0,0,0,0.6);border-color:rgba(212,175,55,0.18)}
+
+  /* Grid */
+  .main{display:flex;gap:16px;align-items:flex-start}
+  .left{flex:1}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px;transition:transform .15s}
+  .card:hover{transform:translateY(-6px)}
+  .match{display:flex;gap:10px;align-items:center}
+  .teams{flex:1}
+  .team{display:flex;flex-direction:column}
+  .team strong{font-size:15px}
+  .meta{color:var(--muted);font-size:12px}
+  .odds{display:flex;gap:8px;margin-top:8px}
+  .odd{padding:8px 10px;border-radius:10px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.02);min-width:80px;text-align:center;cursor:pointer}
+  .odd .o-title{font-weight:700;color:var(--gold-2)}
+  .odd .o-sub{color:var(--muted);font-size:12px}
+
+  /* Bet slip (right column) */
+  .right{width:340px;min-width:260px;max-width:380px}
+  .betslip{position:sticky;top:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.04));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .betslip h3{margin:0 0 8px 0}
+  .bet-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+  .bet-row:last-child{border-bottom:0}
+  .small-muted{color:var(--muted);font-size:13px}
+  .stake-row{display:flex;gap:8px;align-items:center;margin-top:10px}
+  .stake-row input{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  .pay-btn{margin-top:12px;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--gold-1),var(--gold-2));color:#0b0b0b;border:none;font-weight:800;cursor:pointer;width:100%}
+
+  /* Modal (login + bet slip preview) */
+  .modal-back{position:fixed;inset:0;background:rgba(2,2,2,0.6);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px}
+  .modal{width:100%;max-width:520px;background:linear-gradient(180deg,#0b0b0b,#0b0b0b);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04)}
+  .modal h2{margin:0 0 10px 0}
+  .form-row{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+  .form-row input{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+
+  /* Loading animation */
+  .loading{position:fixed;inset:0;background:linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8));display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;color:var(--gold-2)}
+  .loader{width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--gold-1), transparent 40%);filter:blur(6px);margin-bottom:14px;animation:spin 1.6s linear infinite}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+  footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
+
+  /* Responsive */
+  @media (max-width:900px){ .main{flex-direction:column}.right{width:100%}.wrap{padding:12px} }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo">4K</div>
-        <div>
-          <h1>4K Jocthan7</h1>
-          <div class="sub">Download music, videos & movies — Advertise with us</div>
-        </div>
-      </div>
-
-      <div class="searchbar" role="search">
-        <input id="searchInput" placeholder="Search songs, artists, movies..." aria-label="Search">
-        <button id="searchBtn">Search</button>
-      </div>
-
-      <div>
-        <button id="uploadBtn" class="tab" title="Advertise / Upload">Advertise</button>
-      </div>
-    </header>
-
-    <nav class="tabs" aria-label="Categories">
-      <button class="tab active" data-cat="all">Trending</button>
-      <button class="tab" data-cat="music">Music</button>
-      <button class="tab" data-cat="videos">Videos</button>
-      <button class="tab" data-cat="movies">Movies</button>
-    </nav>
-
-    <main>
-      <section id="results" class="grid" aria-live="polite"></section>
-      <div class="pager" id="pager"></div>
-
-      <div class="advert" id="adBlock">
-        <div>
-          <strong>Advertise on 4K Jocthan7</strong>
-          <div class="sub">Reach thousands of music lovers. Contact: support@4kjocthan7.com</div>
-        </div>
-        <div><button class="btn" onclick="openAdvertForm()">Get featured</button></div>
-      </div>
-    </main>
-
-    <footer>© <span id="year"></span> 4K Jocthan7 — Built for promos & legal downloads.</footer>
+  <!-- Loading -->
+  <div id="loading" class="loading" aria-hidden="false">
+    <div class="loader" aria-hidden="true"></div>
+    <div style="font-weight:800;font-size:18px">SurePlay</div>
+    <div style="color:var(--muted);margin-top:8px">Loading…</div>
   </div>
 
-  <script>
-    const ITEMS = [
-      {id:1, title:'Jocthan7 - Rise (Official)', artist:'Jocthan7', type:'music',
-       thumb:'https://picsum.photos/seed/1/600/400',
-       downloadUrl:'https://drive.google.com/uc?export=download&id=1Qd_CrrwT9gjp8O_xhsMc4QxIfrzHReUv'},
-      {id:2, title:'City Life (Short Movie)', artist:'Indie Studio', type:'movies',
-       thumb:'https://picsum.photos/seed/3/600/400',
-       downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_3'},
-      {id:3, title:'Action Trailer 4K', artist:'Studio X', type:'videos',
-       thumb:'https://picsum.photos/seed/6/600/400',
-       downloadUrl:'https://drive.google.com/uc?export=download&id=DRIVE_FILE_ID_6'}
-    ];
+  <div class="wrap" id="app" style="display:none">
+    <header>
+      <div class="brand">
+        <div class="logo">SP</div>
+        <div>
+          <h1>SurePlay</h1>
+          <div class="balance" id="balanceText">Balance: ₦0.00</div>
+        </div>
+      </div>
 
-    const PAGE_SIZE = 6;
-    let state = {query:'', cat:'all', page:1};
+      <div class="searchbar" style="display:flex;align-items:center">
+        <input id="search" placeholder="Search teams or match..." />
+      </div>
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+      <nav class="top-actions">
+        <button class="btn ghost" id="btnLogin">Login</button>
+        <button class="btn primary" id="btnRegister">Register</button>
+      </nav>
+    </header>
 
-    document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      btn.classList.add('active');
-      state.cat = btn.dataset.cat || 'all';
-      state.page = 1;
-      render();
-    }));
+    <div class="tabs" id="sportTabs" role="tablist" aria-label="Sports tabs">
+      <button class="tab active" data-sport="football">Football</button>
+      <button class="tab" data-sport="basketball">Basketball</button>
+      <button class="tab" data-sport="tabletennis">Table Tennis</button>
+      <button class="tab" data-sport="volleyball">Volleyball</button>
+      <div style="flex:1"></div>
+      <button class="tab ghost" id="clearSlip">Clear Slip</button>
+    </div>
 
-    document.getElementById('searchInput').addEventListener('input', e=>{
-      state.query = e.target.value.trim().toLowerCase();
-      state.page = 1;
-      render();
-    });
+    <div class="main">
+      <div class="left">
+        <section id="results" class="grid" aria-live="polite"></section>
 
-    document.getElementById('searchBtn').addEventListener('click', ()=>{
-      state.query = document.getElementById('searchInput').value.trim().toLowerCase();
-      state.page = 1;
-      render();
-    });
+        <footer>
+          © <span id="year"></span> SurePlay — Demo UI. This is a prototype.
+        </footer>
+      </div>
 
-    function filterItems(){
-      return ITEMS.filter(item=>{
-        if(state.cat !== 'all' && item.type !== state.cat) return false;
-        if(state.query){
-          const hay = (item.title + ' ' + item.artist + ' ' + item.type).toLowerCase();
-          return hay.includes(state.query);
-        }
-        return true;
-      });
-    }
-
-    function render(){
-      const results = document.getElementById('results');
-      const pager = document.getElementById('pager');
-      results.innerHTML = '';
-      const filtered = filterItems();
-      const total = filtered.length;
-      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-      if(state.page > pages) state.page = pages;
-      const start = (state.page - 1) * PAGE_SIZE;
-      const pageItems = filtered.slice(start, start + PAGE_SIZE);
-
-      pageItems.forEach(it=>{
-        const el = document.createElement('article');
-        el.className = 'card';
-        el.innerHTML = `
-          <div class="thumb" style="background-image:url('${it.thumb}')"></div>
-          <div class="meta">
-            <div>
-              <div class="title">${escapeHtml(it.title)}</div>
-              <div class="sub">${escapeHtml(it.artist)} • ${escapeHtml(capitalize(it.type))}</div>
-            </div>
-            <div class="actions">
-              <button class="btn play" onclick="preview('${encodeURIComponent(it.downloadUrl)}')">Preview</button>
-              <button class="btn download" onclick="downloadItem('${encodeURIComponent(it.downloadUrl)}', ${it.id})">Download</button>
-            </div>
+      <aside class="right">
+        <div class="betslip" id="betslip">
+          <h3>Bet Slip</h3>
+          <div id="betList">
+            <div class="small-muted">No selections yet. Click an odd to add it.</div>
           </div>
-        `;
-        results.appendChild(el);
-      });
 
-      pager.innerHTML = '';
-      const prev = document.createElement('button'); prev.textContent = 'Previous'; prev.disabled = state.page === 1;
-      prev.addEventListener('click', ()=>{ state.page--; render(); });
-      pager.appendChild(prev);
+          <div style="margin-top:10px">
+            <div class="small-muted">Total Stake</div>
+            <div style="display:flex;gap:8px">
+              <input id="totalStake" placeholder="Enter total stake e.g. 500" />
+              <button class="btn ghost" id="splitEven">Split</button>
+            </div>
+            <div class="small-muted" style="margin-top:8px">Potential Return</div>
+            <div id="potential" style="font-weight:800;margin-top:6px">₦0.00</div>
+            <button class="pay-btn" id="placeBetBtn">Place Bet (Demo)</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
 
-      const info = document.createElement('div'); info.textContent = `Page ${state.page} of ${pages} — ${total} items`;
-      info.style.color = 'var(--muted)'; info.style.alignSelf = 'center';
-      pager.appendChild(info);
+  <!-- Login / Register modal -->
+  <div id="modalBack" class="modal-back" style="display:none" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 id="modalTitle">Login</h2>
+        <button class="btn ghost" id="modalClose">Close</button>
+      </div>
 
-      const next = document.createElement('button'); next.textContent = 'Next'; next.disabled = state.page === pages;
-      next.addEventListener('click', ()=>{ state.page++; render(); });
-      pager.appendChild(next);
+      <div id="modalBody">
+        <div class="form-row">
+          <label class="small-muted">Email</label>
+          <input id="modalEmail" type="email" placeholder="you@example.com" />
+        </div>
+        <div class="form-row">
+          <label class="small-muted">Password</label>
+          <input id="modalPassword" type="password" placeholder="password" />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn primary" id="modalAction">Login</button>
+          <button class="btn ghost" id="switchToRegister">Register</button>
+        </div>
+        <div id="modalMsg" style="margin-top:10px;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
 
-      if(filtered.length === 0){
-        results.innerHTML = `<div class="card" style="grid-column:1/-1;text-align:center;color:var(--muted)">No results found.</div>`;
-      }
-    }
+<script>
+/* ================= Demo Data & Helpers ================= */
+document.getElementById('year').textContent = new Date().getFullYear();
 
-    function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
-    function escapeHtml(s){return String(s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":"&#39;"}[c]));}
-    function preview(encodedUrl){window.open(decodeURIComponent(encodedUrl),'_blank');}
-    function downloadItem(encodedUrl){const url=decodeURIComponent(encodedUrl);const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
-    function openAdvertForm(){window.location.href='mailto:support@4kjocthan7.com?subject=Advert%20Enquiry';}
+const DEMO = {
+  football: [
+    {id: 'f1', title: 'Arsenal vs Chelsea', time: 'Today 18:00', odds: [{k:'1',label:'Arsenal',v:2.30},{k:'X',label:'Draw',v:3.10},{k:'2',label:'Chelsea',v:2.80}]},
+    {id: 'f2', title: 'Real Madrid vs Barca', time: 'Tomorrow 20:00', odds: [{k:'1',label:'Real',v:1.95},{k:'X',label:'Draw',v:3.60},{k:'2',label:'Barca',v:4.10}]},
+    {id: 'f3', title: 'Bayern vs Dortmund', time: 'Tomorrow 16:00', odds: [{k:'1',label:'Bayern',v:1.70},{k:'X',label:'Draw',v:3.90},{k:'2',label:'Dortmund',v:5.00}]}
+  ],
+  basketball: [
+    {id:'b1', title:'Lakers vs Celtics', time:'Today 21:00', odds:[{k:'LAL',label:'Lakers',v:1.85},{k:'BOS',label:'Celtics',v:1.95}]},
+    {id:'b2', title:'Bulls vs Heat', time:'Tomorrow 19:00', odds:[{k:'CHI',label:'Bulls',v:2.10},{k:'MIA',label:'Heat',v:1.80}]}
+  ],
+  tabletennis: [
+    {id:'t1', title:'Lee vs Zhang', time:'Today 14:30', odds:[{k:'L',label:'Lee',v:1.70},{k:'Z',label:'Zhang',v:2.10}]},
+    {id:'t2', title:'Kim vs Ito', time:'Tomorrow 12:00', odds:[{k:'K',label:'Kim',v:1.95},{k:'I',label:'Ito',v:1.95}]}
+  ],
+  volleyball: [
+    {id:'v1', title:'Nigeria vs Kenya', time:'Today 17:00', odds:[{k:'NGR',label:'Nigeria',v:1.60},{k:'KEN',label:'Kenya',v:2.40}]},
+    {id:'v2', title:'Brazil vs Italy', time:'Tomorrow 18:00', odds:[{k:'BRA',label:'Brazil',v:1.50},{k:'ITA',label:'Italy',v:2.80}]}
+  ]
+};
 
+let appState = {
+  sport: 'football',
+  search: '',
+  slip: [], // {eventId, title, outcomeKey, outcomeLabel, odd}
+  balance: 0
+};
+
+/* ================= Loading animation ================= */
+window.addEventListener('load', ()=> {
+  // fake loading for demo aesthetics
+  setTimeout(()=> {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
     render();
-  </script>
+  }, 900);
+});
+
+/* ================= Render UI ================= */
+function render(){
+  renderTabs();
+  renderMatches();
+  renderSlip();
+  updateBalanceText();
+}
+
+function renderTabs(){
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.sport === appState.sport);
+  });
+}
+
+function renderMatches(){
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  const list = (DEMO[appState.sport] || []).filter(m=>{
+    if(!appState.search) return true;
+    const s = appState.search.toLowerCase();
+    return m.title.toLowerCase().includes(s) || m.time.toLowerCase().includes(s);
+  });
+  if(list.length === 0){
+    results.innerHTML = `<div class="card" style="grid-column:1/-1;text-align:center;color:var(--muted)">No matches found.</div>`;
+    return;
+  }
+  list.forEach(match=>{
+    const card = document.createElement('div'); card.className='card';
+    card.innerHTML = `
+      <div class="match">
+        <div class="teams">
+          <div class="team"><strong>${escapeHtml(match.title)}</strong><div class="meta">${escapeHtml(match.time)}</div></div>
+        </div>
+      </div>
+    `;
+    // odds
+    const oddsWrap = document.createElement('div'); oddsWrap.className = 'odds';
+    match.odds.forEach(o=>{
+      const od = document.createElement('div'); od.className='odd';
+      od.innerHTML = `<div class="o-title">${o.v.toFixed(2)}</div><div class="o-sub">${escapeHtml(o.label)}</div>`;
+      od.addEventListener('click', ()=> addToSlip(match, o));
+      oddsWrap.appendChild(od);
+    });
+    card.appendChild(oddsWrap);
+    results.appendChild(card);
+  });
+}
+
+function renderSlip(){
+  const el = document.getElementById('betList');
+  el.innerHTML = '';
+  if(appState.slip.length === 0){
+    el.innerHTML = `<div class="small-muted">No selections yet. Click an odd to add it.</div>`;
+    document.getElementById('potential').innerText = '₦0.00';
+    return;
+  }
+  appState.slip.forEach((s, idx)=>{
+    const row = document.createElement('div'); row.className='bet-row';
+    row.innerHTML = `<div style="flex:1"><div style="font-weight:700">${escapeHtml(s.title)}</div><div class="small-muted">${escapeHtml(s.outcomeLabel)}</div></div><div style="text-align:right"><div style="font-weight:800;color:var(--gold-2)">x${s.odd.toFixed(2)}</div><div style="font-size:12px;color:var(--muted);margin-top:6px"><button class="btn ghost" data-idx="${idx}">Remove</button></div></div>`;
+    el.appendChild(row);
+  });
+  // attach remove handlers
+  el.querySelectorAll('button[data-idx]').forEach(b=>{
+    b.addEventListener('click', (e)=>{
+      const idx = Number(e.target.dataset.idx);
+      appState.slip.splice(idx,1);
+      renderSlip();
+    });
+  });
+  // compute potential (assuming total stake splits evenly across selections and accumulative multiplication for parlay)
+  computePotential();
+}
+
+/* ================= Helpers: add to slip, compute potential ================= */
+function addToSlip(match, odd){
+  // avoid duplicate outcome for same match/outcome
+  if(appState.slip.find(s=>s.eventId === match.id && s.outcomeKey === odd.k)){
+    alert('You already added this selection.');
+    return;
+  }
+  appState.slip.push({
+    eventId: match.id,
+    title: match.title,
+    outcomeKey: odd.k,
+    outcomeLabel: odd.label,
+    odd: odd.v
+  });
+  renderSlip();
+}
+
+function computePotential(){
+  const stakeInput = document.getElementById('totalStake');
+  const stake = Number(stakeInput.value || 0);
+  if(!stake || stake <= 0){ document.getElementById('potential').innerText = '₦0.00'; return; }
+  // For simplicity: assume parlay (multiply odds) and multiply by stake
+  const multiplier = appState.slip.reduce((acc,s)=> acc * s.odd, 1);
+  const ret = Math.floor(stake * multiplier);
+  document.getElementById('potential').innerText = `₦${ret.toLocaleString()}`;
+}
+
+/* ================= Events / Interaction ================= */
+document.getElementById('search').addEventListener('input', (e)=> {
+  appState.search = e.target.value.trim();
+  renderMatches();
+});
+
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    appState.sport = btn.dataset.sport;
+    appState.search = '';
+    document.getElementById('search').value = '';
+    render();
+  });
+});
+
+document.getElementById('clearSlip').addEventListener('click', ()=>{
+  if(confirm('Clear all selections?')){ appState.slip = []; render(); }
+});
+
+document.getElementById('splitEven').addEventListener('click', ()=>{
+  // simple split: set each selection stake to equal proportion (client side demo only)
+  if(appState.slip.length === 0){ alert('Add selections first'); return; }
+  const s = prompt('Enter total stake to split evenly across selections (e.g. 500):');
+  if(!s) return;
+  document.getElementById('totalStake').value = Number(s);
+  computePotential();
+});
+
+document.getElementById('placeBetBtn').addEventListener('click', ()=>{
+  if(appState.slip.length === 0) return alert('No selections in slip.');
+  const stake = Number(document.getElementById('totalStake').value || 0);
+  if(!stake || stake <= 0) return alert('Enter a valid stake.');
+  // demo: check balance
+  if(appState.balance < stake) {
+    if(!confirm('Insufficient balance (demo). Continue as simulated bet?')) return;
+  } else {
+    appState.balance = Math.max(0, appState.balance - stake);
+    updateBalanceText();
+  }
+  // show confirmation modal
+  showModalMsg('Bet placed (demo). Potential return: ' + document.getElementById('potential').innerText);
+  // clear slip after placing
+  appState.slip = [];
+  document.getElementById('totalStake').value = '';
+  renderSlip();
+});
+
+/* ================= Modal (login/register) ================= */
+const modalBack = document.getElementById('modalBack');
+const modalTitle = document.getElementById('modalTitle');
+const modalAction = document.getElementById('modalAction');
+const modalMsg = document.getElementById('modalMsg');
+const modalEmail = document.getElementById('modalEmail');
+const modalPassword = document.getElementById('modalPassword');
+
+document.getElementById('btnLogin').addEventListener('click', ()=> openAuth('login'));
+document.getElementById('btnRegister').addEventListener('click', ()=> openAuth('register'));
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('switchToRegister').addEventListener('click', ()=> openAuth('register'));
+
+function openAuth(mode='login'){
+  modalBack.style.display = 'flex';
+  modalBack.setAttribute('aria-hidden','false');
+  modalTitle.innerText = mode === 'login' ? 'Login to SurePlay' : 'Register for SurePlay';
+  modalAction.innerText = mode === 'login' ? 'Login' : 'Create account';
+  modalAction.onclick = ()=> {
+    // demo-only: fake auth
+    const em = modalEmail.value.trim();
+    if(!em || !modalPassword.value){ modalMsg.innerText = 'Enter email and password'; return; }
+    if(mode === 'register'){
+      modalMsg.innerText = 'Registered (demo). Your balance: ₦1000';
+      appState.balance = 1000;
+      setTimeout(closeModal,800);
+      updateBalanceText();
+    } else {
+      modalMsg.innerText = 'Logged in (demo). Balance set to ₦500';
+      appState.balance = 500;
+      setTimeout(closeModal,700);
+      updateBalanceText();
+    }
+  };
+  modalMsg.innerText = '';
+}
+
+function closeModal(){
+  modalBack.style.display = 'none';
+  modalBack.setAttribute('aria-hidden','true');
+  modalEmail.value = ''; modalPassword.value = ''; modalMsg.innerText = '';
+}
+
+function showModalMsg(text){
+  // small modal to show results
+  openSimpleModal('Confirmation', text);
+}
+
+function openSimpleModal(title, text){
+  const overlay = document.createElement('div'); overlay.className = 'modal-back';
+  overlay.style.zIndex = 999;
+  const box = document.createElement('div'); box.className='modal';
+  box.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><h2>${escapeHtml(title)}</h2><button class="btn ghost">Close</button></div><div style="margin-top:10px;color:${escapeHtml('#bfb8ae')}">${escapeHtml(text)}</div>`;
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  box.querySelector('button').addEventListener('click', ()=> document.body.removeChild(overlay));
+}
+
+/* ================= Small utilities ================= */
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+}
+
+function updateBalanceText(){
+  document.getElementById('balanceText').innerText = `Balance: ₦${appState.balance.toLocaleString()}.00`;
+}
+
+/* Allow pressing Enter in stake input to compute */
+document.getElementById('totalStake').addEventListener('input', computePotential);
+document.getElementById('totalStake').addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ computePotential(); } });
+
+/* ================= Accessibility: close modal on ESC ================= */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    if(document.getElementById('modalBack').style.display === 'flex') closeModal();
+  }
+});
+</script>
 </body>
 </html>
