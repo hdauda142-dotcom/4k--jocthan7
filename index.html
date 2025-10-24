@@ -1,448 +1,254 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SurePlay — Premium Betting</title>
-<meta name="description" content="SurePlay demo — black & gold betting UI" />
-<style>
-  /* ========== Theme (Black & Gold) ========== */
-  :root{
-    --bg:#070608;
-    --panel:#0f0f10;
-    --muted:#bfb8ae;
-    --gold-1:#d4af37;
-    --gold-2:#ffd66b;
-    --glass: rgba(255,255,255,0.03);
-    --accent: linear-gradient(90deg,var(--gold-1),var(--gold-2));
-    --maxw:1100px;
-    --radius:12px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:radial-gradient(1200px 500px at 10% 10%, rgba(255,212,120,0.03), transparent), var(--bg); color:#fff}
-  a{color:var(--gold-2); text-decoration:none}
-  .wrap{max-width:var(--maxw);margin:28px auto;padding:18px}
-  header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#111,#0b0b0b);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--gold-1);font-size:18px;border:1px solid rgba(255,215,120,0.06)}
-  h1{margin:0;font-size:20px;letter-spacing:0.6px}
-  .balance{color:var(--muted);font-size:13px}
-  nav.top-actions{display:flex;gap:8px;align-items:center}
-  .btn{padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-  .btn.primary{background:var(--gold-1); color:#0a0a0a}
-  .searchbar{min-width:260px;max-width:420px;flex:1;margin:10px 0}
-  .searchbar input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:var(--glass);color:inherit}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoldBet - Sports Betting</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      color: #f1c40f;
+    }
 
-  /* Tabs */
-  .tabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
-  .tab{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.02);color:var(--muted);cursor:pointer}
-  .tab.active{background:var(--panel);color:var(--gold-2);box-shadow:0 4px 18px rgba(0,0,0,0.6);border-color:rgba(212,175,55,0.18)}
+    header {
+      background: linear-gradient(90deg, #000, #111);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #f1c40f;
+    }
 
-  /* Grid */
-  .main{display:flex;gap:16px;align-items:flex-start}
-  .left{flex:1}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px;transition:transform .15s}
-  .card:hover{transform:translateY(-6px)}
-  .match{display:flex;gap:10px;align-items:center}
-  .teams{flex:1}
-  .team{display:flex;flex-direction:column}
-  .team strong{font-size:15px}
-  .meta{color:var(--muted);font-size:12px}
-  .odds{display:flex;gap:8px;margin-top:8px}
-  .odd{padding:8px 10px;border-radius:10px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.02);min-width:80px;text-align:center;cursor:pointer}
-  .odd .o-title{font-weight:700;color:var(--gold-2)}
-  .odd .o-sub{color:var(--muted);font-size:12px}
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #f1c40f;
+    }
 
-  /* Bet slip (right column) */
-  .right{width:340px;min-width:260px;max-width:380px}
-  .betslip{position:sticky;top:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.04));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-  .betslip h3{margin:0 0 8px 0}
-  .bet-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
-  .bet-row:last-child{border-bottom:0}
-  .small-muted{color:var(--muted);font-size:13px}
-  .stake-row{display:flex;gap:8px;align-items:center;margin-top:10px}
-  .stake-row input{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-  .pay-btn{margin-top:12px;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--gold-1),var(--gold-2));color:#0b0b0b;border:none;font-weight:800;cursor:pointer;width:100%}
+    nav {
+      display: flex;
+      gap: 16px;
+    }
 
-  /* Modal (login + bet slip preview) */
-  .modal-back{position:fixed;inset:0;background:rgba(2,2,2,0.6);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px}
-  .modal{width:100%;max-width:520px;background:linear-gradient(180deg,#0b0b0b,#0b0b0b);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04)}
-  .modal h2{margin:0 0 10px 0}
-  .form-row{display:flex;flex-direction:column;gap:6px;margin:8px 0}
-  .form-row input{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    nav a {
+      color: #f1c40f;
+      text-decoration: none;
+      font-weight: 600;
+    }
 
-  /* Loading animation */
-  .loading{position:fixed;inset:0;background:linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8));display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;color:var(--gold-2)}
-  .loader{width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--gold-1), transparent 40%);filter:blur(6px);margin-bottom:14px;animation:spin 1.6s linear infinite}
-  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    nav a:hover {
+      color: white;
+    }
 
-  footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background-color: #111;
+      border-bottom: 1px solid #333;
+    }
 
-  /* Responsive */
-  @media (max-width:900px){ .main{flex-direction:column}.right{width:100%}.wrap{padding:12px} }
-</style>
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      border-color: #f1c40f;
+      background-color: #1a1a1a;
+    }
+
+    .games {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+    .match {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .teams {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .odds button {
+      background: #f1c40f;
+      color: #000;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-left: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .odds button:hover {
+      background: #ffda44;
+    }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      padding: 20px;
+      background: #000;
+      border-top: 1px solid #222;
+      margin-top: 40px;
+    }
+
+    /* Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      border: 2px solid #f1c40f;
+      color: #f1c40f;
+    }
+
+    .popup-content h2 {
+      margin-top: 0;
+    }
+
+    .popup-content button {
+      margin-top: 10px;
+      background: #f1c40f;
+      color: #000;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .popup-content button:hover {
+      background: #ffda44;
+    }
+  </style>
 </head>
 <body>
-  <!-- Loading -->
-  <div id="loading" class="loading" aria-hidden="false">
-    <div class="loader" aria-hidden="true"></div>
-    <div style="font-weight:800;font-size:18px">SurePlay</div>
-    <div style="color:var(--muted);margin-top:8px">Loading…</div>
+  <header>
+    <div class="logo">🏆 GoldBet</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Live</a>
+      <a href="#">Results</a>
+      <a href="#">Login</a>
+    </nav>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" data-sport="football">Football</div>
+    <div class="tab" data-sport="basketball">Basketball</div>
+    <div class="tab" data-sport="tabletennis">Table Tennis</div>
+    <div class="tab" data-sport="volleyball">Volleyball</div>
   </div>
 
-  <div class="wrap" id="app" style="display:none">
-    <header>
-      <div class="brand">
-        <div class="logo">SP</div>
-        <div>
-          <h1>SurePlay</h1>
-          <div class="balance" id="balanceText">Balance: ₦0.00</div>
-        </div>
-      </div>
+  <main class="games" id="gamesList"></main>
 
-      <div class="searchbar" style="display:flex;align-items:center">
-        <input id="search" placeholder="Search teams or match..." />
-      </div>
+  <footer>© <span id="year"></span> GoldBet — Smart Bets, Golden Wins</footer>
 
-      <nav class="top-actions">
-        <button class="btn ghost" id="btnLogin">Login</button>
-        <button class="btn primary" id="btnRegister">Register</button>
-      </nav>
-    </header>
-
-    <div class="tabs" id="sportTabs" role="tablist" aria-label="Sports tabs">
-      <button class="tab active" data-sport="football">Football</button>
-      <button class="tab" data-sport="basketball">Basketball</button>
-      <button class="tab" data-sport="tabletennis">Table Tennis</button>
-      <button class="tab" data-sport="volleyball">Volleyball</button>
-      <div style="flex:1"></div>
-      <button class="tab ghost" id="clearSlip">Clear Slip</button>
+  <div class="popup" id="betPopup">
+    <div class="popup-content">
+      <h2>Place Your Bet</h2>
+      <p id="betDetails"></p>
+      <input type="number" id="betAmount" placeholder="Enter amount" style="width:100%;padding:8px;margin:8px 0;border-radius:6px;border:none;">
+      <button onclick="confirmBet()">Confirm</button>
+      <button onclick="closePopup()">Cancel</button>
     </div>
+  </div>
 
-    <div class="main">
-      <div class="left">
-        <section id="results" class="grid" aria-live="polite"></section>
+  <script>
+    const games = {
+      football: [
+        {match: 'Man City vs Arsenal', odds: [2.1, 3.4, 3.2]},
+        {match: 'Chelsea vs Liverpool', odds: [2.8, 3.3, 2.5]},
+        {match: 'Barcelona vs Real Madrid', odds: [2.6, 3.6, 2.7]}
+      ],
+      basketball: [
+        {match: 'Lakers vs Warriors', odds: [1.9, 2.4]},
+        {match: 'Celtics vs Bulls', odds: [2.2, 2.9]}
+      ],
+      tabletennis: [
+        {match: 'Ma Long vs Fan Zhendong', odds: [1.8, 2.0]},
+        {match: 'Timo Boll vs Tomokazu Harimoto', odds: [2.1, 1.9]}
+      ],
+      volleyball: [
+        {match: 'Brazil vs USA', odds: [2.3, 2.6]},
+        {match: 'Italy vs France', odds: [2.0, 2.9]}
+      ]
+    };
 
-        <footer>
-          © <span id="year"></span> SurePlay — Demo UI. This is a prototype.
-        </footer>
-      </div>
+    const gamesList = document.getElementById('gamesList');
+    const popup = document.getElementById('betPopup');
+    const betDetails = document.getElementById('betDetails');
+    const year = document.getElementById('year');
+    year.textContent = new Date().getFullYear();
 
-      <aside class="right">
-        <div class="betslip" id="betslip">
-          <h3>Bet Slip</h3>
-          <div id="betList">
-            <div class="small-muted">No selections yet. Click an odd to add it.</div>
+    function renderGames(sport) {
+      gamesList.innerHTML = '';
+      games[sport].forEach(g => {
+        const div = document.createElement('div');
+        div.className = 'match';
+        div.innerHTML = `
+          <div class="teams">${g.match}</div>
+          <div class="odds">
+            ${g.odds.map((o, i) => `<button onclick="openPopup('${g.match}', ${o})">${o}</button>`).join('')}
           </div>
-
-          <div style="margin-top:10px">
-            <div class="small-muted">Total Stake</div>
-            <div style="display:flex;gap:8px">
-              <input id="totalStake" placeholder="Enter total stake e.g. 500" />
-              <button class="btn ghost" id="splitEven">Split</button>
-            </div>
-            <div class="small-muted" style="margin-top:8px">Potential Return</div>
-            <div id="potential" style="font-weight:800;margin-top:6px">₦0.00</div>
-            <button class="pay-btn" id="placeBetBtn">Place Bet (Demo)</button>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </div>
-
-  <!-- Login / Register modal -->
-  <div id="modalBack" class="modal-back" style="display:none" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h2 id="modalTitle">Login</h2>
-        <button class="btn ghost" id="modalClose">Close</button>
-      </div>
-
-      <div id="modalBody">
-        <div class="form-row">
-          <label class="small-muted">Email</label>
-          <input id="modalEmail" type="email" placeholder="you@example.com" />
-        </div>
-        <div class="form-row">
-          <label class="small-muted">Password</label>
-          <input id="modalPassword" type="password" placeholder="password" />
-        </div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="btn primary" id="modalAction">Login</button>
-          <button class="btn ghost" id="switchToRegister">Register</button>
-        </div>
-        <div id="modalMsg" style="margin-top:10px;color:var(--muted)"></div>
-      </div>
-    </div>
-  </div>
-
-<script>
-/* ================= Demo Data & Helpers ================= */
-document.getElementById('year').textContent = new Date().getFullYear();
-
-const DEMO = {
-  football: [
-    {id: 'f1', title: 'Arsenal vs Chelsea', time: 'Today 18:00', odds: [{k:'1',label:'Arsenal',v:2.30},{k:'X',label:'Draw',v:3.10},{k:'2',label:'Chelsea',v:2.80}]},
-    {id: 'f2', title: 'Real Madrid vs Barca', time: 'Tomorrow 20:00', odds: [{k:'1',label:'Real',v:1.95},{k:'X',label:'Draw',v:3.60},{k:'2',label:'Barca',v:4.10}]},
-    {id: 'f3', title: 'Bayern vs Dortmund', time: 'Tomorrow 16:00', odds: [{k:'1',label:'Bayern',v:1.70},{k:'X',label:'Draw',v:3.90},{k:'2',label:'Dortmund',v:5.00}]}
-  ],
-  basketball: [
-    {id:'b1', title:'Lakers vs Celtics', time:'Today 21:00', odds:[{k:'LAL',label:'Lakers',v:1.85},{k:'BOS',label:'Celtics',v:1.95}]},
-    {id:'b2', title:'Bulls vs Heat', time:'Tomorrow 19:00', odds:[{k:'CHI',label:'Bulls',v:2.10},{k:'MIA',label:'Heat',v:1.80}]}
-  ],
-  tabletennis: [
-    {id:'t1', title:'Lee vs Zhang', time:'Today 14:30', odds:[{k:'L',label:'Lee',v:1.70},{k:'Z',label:'Zhang',v:2.10}]},
-    {id:'t2', title:'Kim vs Ito', time:'Tomorrow 12:00', odds:[{k:'K',label:'Kim',v:1.95},{k:'I',label:'Ito',v:1.95}]}
-  ],
-  volleyball: [
-    {id:'v1', title:'Nigeria vs Kenya', time:'Today 17:00', odds:[{k:'NGR',label:'Nigeria',v:1.60},{k:'KEN',label:'Kenya',v:2.40}]},
-    {id:'v2', title:'Brazil vs Italy', time:'Tomorrow 18:00', odds:[{k:'BRA',label:'Brazil',v:1.50},{k:'ITA',label:'Italy',v:2.80}]}
-  ]
-};
-
-let appState = {
-  sport: 'football',
-  search: '',
-  slip: [], // {eventId, title, outcomeKey, outcomeLabel, odd}
-  balance: 0
-};
-
-/* ================= Loading animation ================= */
-window.addEventListener('load', ()=> {
-  // fake loading for demo aesthetics
-  setTimeout(()=> {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    render();
-  }, 900);
-});
-
-/* ================= Render UI ================= */
-function render(){
-  renderTabs();
-  renderMatches();
-  renderSlip();
-  updateBalanceText();
-}
-
-function renderTabs(){
-  document.querySelectorAll('.tab').forEach(btn=>{
-    btn.classList.toggle('active', btn.dataset.sport === appState.sport);
-  });
-}
-
-function renderMatches(){
-  const results = document.getElementById('results');
-  results.innerHTML = '';
-  const list = (DEMO[appState.sport] || []).filter(m=>{
-    if(!appState.search) return true;
-    const s = appState.search.toLowerCase();
-    return m.title.toLowerCase().includes(s) || m.time.toLowerCase().includes(s);
-  });
-  if(list.length === 0){
-    results.innerHTML = `<div class="card" style="grid-column:1/-1;text-align:center;color:var(--muted)">No matches found.</div>`;
-    return;
-  }
-  list.forEach(match=>{
-    const card = document.createElement('div'); card.className='card';
-    card.innerHTML = `
-      <div class="match">
-        <div class="teams">
-          <div class="team"><strong>${escapeHtml(match.title)}</strong><div class="meta">${escapeHtml(match.time)}</div></div>
-        </div>
-      </div>
-    `;
-    // odds
-    const oddsWrap = document.createElement('div'); oddsWrap.className = 'odds';
-    match.odds.forEach(o=>{
-      const od = document.createElement('div'); od.className='odd';
-      od.innerHTML = `<div class="o-title">${o.v.toFixed(2)}</div><div class="o-sub">${escapeHtml(o.label)}</div>`;
-      od.addEventListener('click', ()=> addToSlip(match, o));
-      oddsWrap.appendChild(od);
-    });
-    card.appendChild(oddsWrap);
-    results.appendChild(card);
-  });
-}
-
-function renderSlip(){
-  const el = document.getElementById('betList');
-  el.innerHTML = '';
-  if(appState.slip.length === 0){
-    el.innerHTML = `<div class="small-muted">No selections yet. Click an odd to add it.</div>`;
-    document.getElementById('potential').innerText = '₦0.00';
-    return;
-  }
-  appState.slip.forEach((s, idx)=>{
-    const row = document.createElement('div'); row.className='bet-row';
-    row.innerHTML = `<div style="flex:1"><div style="font-weight:700">${escapeHtml(s.title)}</div><div class="small-muted">${escapeHtml(s.outcomeLabel)}</div></div><div style="text-align:right"><div style="font-weight:800;color:var(--gold-2)">x${s.odd.toFixed(2)}</div><div style="font-size:12px;color:var(--muted);margin-top:6px"><button class="btn ghost" data-idx="${idx}">Remove</button></div></div>`;
-    el.appendChild(row);
-  });
-  // attach remove handlers
-  el.querySelectorAll('button[data-idx]').forEach(b=>{
-    b.addEventListener('click', (e)=>{
-      const idx = Number(e.target.dataset.idx);
-      appState.slip.splice(idx,1);
-      renderSlip();
-    });
-  });
-  // compute potential (assuming total stake splits evenly across selections and accumulative multiplication for parlay)
-  computePotential();
-}
-
-/* ================= Helpers: add to slip, compute potential ================= */
-function addToSlip(match, odd){
-  // avoid duplicate outcome for same match/outcome
-  if(appState.slip.find(s=>s.eventId === match.id && s.outcomeKey === odd.k)){
-    alert('You already added this selection.');
-    return;
-  }
-  appState.slip.push({
-    eventId: match.id,
-    title: match.title,
-    outcomeKey: odd.k,
-    outcomeLabel: odd.label,
-    odd: odd.v
-  });
-  renderSlip();
-}
-
-function computePotential(){
-  const stakeInput = document.getElementById('totalStake');
-  const stake = Number(stakeInput.value || 0);
-  if(!stake || stake <= 0){ document.getElementById('potential').innerText = '₦0.00'; return; }
-  // For simplicity: assume parlay (multiply odds) and multiply by stake
-  const multiplier = appState.slip.reduce((acc,s)=> acc * s.odd, 1);
-  const ret = Math.floor(stake * multiplier);
-  document.getElementById('potential').innerText = `₦${ret.toLocaleString()}`;
-}
-
-/* ================= Events / Interaction ================= */
-document.getElementById('search').addEventListener('input', (e)=> {
-  appState.search = e.target.value.trim();
-  renderMatches();
-});
-
-document.querySelectorAll('.tab').forEach(btn=>{
-  btn.addEventListener('click', ()=> {
-    appState.sport = btn.dataset.sport;
-    appState.search = '';
-    document.getElementById('search').value = '';
-    render();
-  });
-});
-
-document.getElementById('clearSlip').addEventListener('click', ()=>{
-  if(confirm('Clear all selections?')){ appState.slip = []; render(); }
-});
-
-document.getElementById('splitEven').addEventListener('click', ()=>{
-  // simple split: set each selection stake to equal proportion (client side demo only)
-  if(appState.slip.length === 0){ alert('Add selections first'); return; }
-  const s = prompt('Enter total stake to split evenly across selections (e.g. 500):');
-  if(!s) return;
-  document.getElementById('totalStake').value = Number(s);
-  computePotential();
-});
-
-document.getElementById('placeBetBtn').addEventListener('click', ()=>{
-  if(appState.slip.length === 0) return alert('No selections in slip.');
-  const stake = Number(document.getElementById('totalStake').value || 0);
-  if(!stake || stake <= 0) return alert('Enter a valid stake.');
-  // demo: check balance
-  if(appState.balance < stake) {
-    if(!confirm('Insufficient balance (demo). Continue as simulated bet?')) return;
-  } else {
-    appState.balance = Math.max(0, appState.balance - stake);
-    updateBalanceText();
-  }
-  // show confirmation modal
-  showModalMsg('Bet placed (demo). Potential return: ' + document.getElementById('potential').innerText);
-  // clear slip after placing
-  appState.slip = [];
-  document.getElementById('totalStake').value = '';
-  renderSlip();
-});
-
-/* ================= Modal (login/register) ================= */
-const modalBack = document.getElementById('modalBack');
-const modalTitle = document.getElementById('modalTitle');
-const modalAction = document.getElementById('modalAction');
-const modalMsg = document.getElementById('modalMsg');
-const modalEmail = document.getElementById('modalEmail');
-const modalPassword = document.getElementById('modalPassword');
-
-document.getElementById('btnLogin').addEventListener('click', ()=> openAuth('login'));
-document.getElementById('btnRegister').addEventListener('click', ()=> openAuth('register'));
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('switchToRegister').addEventListener('click', ()=> openAuth('register'));
-
-function openAuth(mode='login'){
-  modalBack.style.display = 'flex';
-  modalBack.setAttribute('aria-hidden','false');
-  modalTitle.innerText = mode === 'login' ? 'Login to SurePlay' : 'Register for SurePlay';
-  modalAction.innerText = mode === 'login' ? 'Login' : 'Create account';
-  modalAction.onclick = ()=> {
-    // demo-only: fake auth
-    const em = modalEmail.value.trim();
-    if(!em || !modalPassword.value){ modalMsg.innerText = 'Enter email and password'; return; }
-    if(mode === 'register'){
-      modalMsg.innerText = 'Registered (demo). Your balance: ₦1000';
-      appState.balance = 1000;
-      setTimeout(closeModal,800);
-      updateBalanceText();
-    } else {
-      modalMsg.innerText = 'Logged in (demo). Balance set to ₦500';
-      appState.balance = 500;
-      setTimeout(closeModal,700);
-      updateBalanceText();
+        `;
+        gamesList.appendChild(div);
+      });
     }
-  };
-  modalMsg.innerText = '';
-}
 
-function closeModal(){
-  modalBack.style.display = 'none';
-  modalBack.setAttribute('aria-hidden','true');
-  modalEmail.value = ''; modalPassword.value = ''; modalMsg.innerText = '';
-}
+    function openPopup(match, odd) {
+      popup.style.display = 'flex';
+      betDetails.textContent = `You selected: ${match} at odds ${odd}`;
+    }
 
-function showModalMsg(text){
-  // small modal to show results
-  openSimpleModal('Confirmation', text);
-}
+    function closePopup() {
+      popup.style.display = 'none';
+    }
 
-function openSimpleModal(title, text){
-  const overlay = document.createElement('div'); overlay.className = 'modal-back';
-  overlay.style.zIndex = 999;
-  const box = document.createElement('div'); box.className='modal';
-  box.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><h2>${escapeHtml(title)}</h2><button class="btn ghost">Close</button></div><div style="margin-top:10px;color:${escapeHtml('#bfb8ae')}">${escapeHtml(text)}</div>`;
-  overlay.appendChild(box);
-  document.body.appendChild(overlay);
-  box.querySelector('button').addEventListener('click', ()=> document.body.removeChild(overlay));
-}
+    function confirmBet() {
+      const amt = document.getElementById('betAmount').value;
+      if (!amt) return alert('Enter a bet amount');
+      alert(`Bet placed: ₦${amt} — Good luck!`);
+      closePopup();
+    }
 
-/* ================= Small utilities ================= */
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
-}
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderGames(tab.dataset.sport);
+      });
+    });
 
-function updateBalanceText(){
-  document.getElementById('balanceText').innerText = `Balance: ₦${appState.balance.toLocaleString()}.00`;
-}
-
-/* Allow pressing Enter in stake input to compute */
-document.getElementById('totalStake').addEventListener('input', computePotential);
-document.getElementById('totalStake').addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ computePotential(); } });
-
-/* ================= Accessibility: close modal on ESC ================= */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape'){
-    if(document.getElementById('modalBack').style.display === 'flex') closeModal();
-  }
-});
-</script>
+    renderGames('football');
+  </script>
 </body>
 </html>
