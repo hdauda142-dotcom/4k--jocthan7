@@ -61,4 +61,594 @@
   .teams{font-weight:800}
   .meta{color:var(--muted);font-size:12px}
   .odds{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .odd-btn{padding
+  .odd-btn{padding:8px 10px;border-radius:8px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.03);min-width:72px;text-align:center;cursor:pointer}
+  .odd-btn .od{font-weight:800;color:var(--gold-2)}
+  .odd-btn:hover{transform:translateY(-3px)}
+
+  .more-row{text-align:center;margin:14px 0}
+  .load-more{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--gold-1),var(--gold-2));color:#000;border:0;cursor:pointer}
+
+  /* featured & games */
+  .featured{display:flex;gap:12px;margin-bottom:12px;align-items:center}
+  .featured .box{padding:12px;border-radius:10px;background:linear-gradient(180deg,#120f0b,#0b0a08);border:1px solid rgba(255,255,255,0.03)}
+  .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+  .game-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,#0b0a09,#0f0f0f);border:1px solid rgba(255,255,255,0.02);text-align:center}
+
+  /* right col (betslip & live) */
+  .betslip{position:sticky;top:20px;background:linear-gradient(180deg,#0b0b0b,#0b0b0b);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+  .bet-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
+  .bet-item:last-child{border-bottom:0}
+  .stake-input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+
+  /* markets modal */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
+  .modal{max-width:920px;width:100%;background:linear-gradient(180deg,#0b0b0b,#0b0b0b);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.04)}
+  .market-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .market-tab{padding:8px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+  .market-tab.active{background:rgba(255,215,55,0.06);color:var(--gold-2)}
+
+  .market-row{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.02)}
+
+  /* bottom nav */
+  .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#040404;border-top:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-around;padding:8px 6px}
+  .nav-item{display:flex;flex-direction:column;align-items:center;color:var(--muted);font-size:12px}
+  .nav-item.active{color:var(--gold-2)}
+
+  /* small screens */
+  @media (max-width:980px){
+    .content{grid-template-columns:1fr;gap:10px}
+    .leftcol,.rightcol{height:auto}
+    .bottom-nav{display:flex}
+    header{flex-direction:column;align-items:flex-start;gap:8px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- header -->
+    <header>
+      <div class="brand">
+        <div class="logo">GoldBet</div>
+        <div>
+          <h1>GoldBet</h1>
+          <div class="slogan">Bet Smart. Your Sure Way to Golden Wins.</div>
+        </div>
+      </div>
+
+      <div class="searchbar" role="search">
+        <input id="globalSearch" placeholder="Search teams, matches, markets..." />
+        <button class="btn ghost" id="btnSearch" title="Search">🔍</button>
+      </div>
+
+      <div class="balance-box">
+        <div class="balance" id="balanceText">₦0.00</div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="btn ghost" id="btnDeposit">Deposit</button>
+          <button class="btn" id="btnLogin">Login</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- content columns -->
+    <div class="content" role="main">
+      <!-- LEFT -->
+      <aside class="leftcol" aria-label="Left Navigation">
+        <div>
+          <div class="section-title">Quick Links</div>
+          <div class="list">
+            <a href="#"><span>Live</span><span class="badge">●</span></a>
+            <a href="#"><span>My Favourite</span><span class="badge">★</span></a>
+            <a href="#"><span>Today's Football</span><span class="badge">+100</span></a>
+            <a href="#"><span>Football next 3h</span><span class="badge">20</span></a>
+          </div>
+        </div>
+
+        <hr style="border:none;height:10px">
+
+        <div>
+          <div class="section-title">Top Leagues</div>
+          <div class="list">
+            <a href="#"><span>England - Premier League</span><span class="badge">EPL</span></a>
+            <a href="#"><span>Spain - La Liga</span><span class="badge">LaLiga</span></a>
+            <a href="#"><span>Italy - Serie A</span><span class="badge">Serie A</span></a>
+            <a href="#"><span>Germany - Bundesliga</span><span class="badge">Bundes</span></a>
+            <a href="#"><span>France - Ligue 1</span><span class="badge">Ligue1</span></a>
+            <a href="#"><span>NBA</span><span class="badge">NBA</span></a>
+          </div>
+        </div>
+
+        <hr style="border:none;height:10px">
+
+        <div>
+          <div class="section-title">Other</div>
+          <div class="list">
+            <a href="#" data-load="virtuals">Virtuals</a>
+            <a href="#" data-load="jackpot">Jackpot</a>
+            <a href="#" data-load="results">Results</a>
+            <a href="#" data-load="promotions">Promotions</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER -->
+      <section class="center">
+        <div class="toolbar">
+          <div class="tabs" id="sportsTabs">
+            <!-- sport tabs injected -->
+          </div>
+
+          <div style="flex:1"></div>
+
+          <div style="display:flex;gap:8px">
+            <button class="btn ghost" id="btnAll">All</button>
+            <button class="btn" id="btnMore">More Sports</button>
+          </div>
+        </div>
+
+        <!-- Featured -->
+        <div class="featured">
+          <div class="box" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:900;font-size:16px">Featured Match</div>
+                <div class="meta" id="featuredTime">Today • 18:00</div>
+                <div class="teams" id="featuredTeams">Arsenal vs Chelsea</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:12px;color:var(--muted)">Market</div>
+                <div style="font-weight:900;color:var(--gold-2)">1 × 2 • Over/Under • Handicap</div>
+              </div>
+            </div>
+            <div style="margin-top:12px" id="featuredOdds">
+              <!-- odds buttons -->
+            </div>
+            <div style="margin-top:8px;color:var(--muted)">View markets, stats and comment below.</div>
+          </div>
+
+          <div class="box" style="width:260px;text-align:center">
+            <div style="font-weight:800;margin-bottom:8px">Jackpot</div>
+            <div style="font-size:18px;color:var(--gold-2)">₦1,250,000</div>
+            <div style="margin-top:10px"><button class="load-more" id="btnJackpot">Enter Jackpot</button></div>
+          </div>
+        </div>
+
+        <!-- Markets / content -->
+        <div id="marketArea">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="flex:1">
+              <!-- list of matches/cards -->
+              <div class="cards" id="cardsList">
+                <!-- match cards injected -->
+              </div>
+
+              <div class="more-row">
+                <button class="load-more" id="loadMoreMatches">Load more matches</button>
+              </div>
+            </div>
+
+            <div style="width:320px">
+              <!-- Featured small -->
+              <div style="border-radius:10px;padding:10px;margin-bottom:12px;background:linear-gradient(180deg,#0b0a09,#0f0f0f);border:1px solid rgba(255,255,255,0.02)">
+                <div style="font-weight:800;color:var(--gold-2)">Featured Markets</div>
+                <div style="margin-top:8px" id="featuredMarketsList">
+                  <!-- injected -->
+                </div>
+              </div>
+
+              <div style="border-radius:10px;padding:10px;background:linear-gradient(180deg,#0b0a09,#0f0f0f);border:1px solid rgba(255,255,255,0.02)">
+                <div style="font-weight:800">Games</div>
+                <div style="margin-top:8px" class="games-grid" id="gamesGrid">
+                  <!-- games injected -->
+                </div>
+                <div style="margin-top:8px;text-align:center"><button class="load-more" id="btnMoreGames">More Games</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Markets modal (view markets, stats, comments) -->
+        <div class="modal-back" id="marketModal">
+          <div class="modal" role="dialog" aria-modal="true">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div id="modalMatchTitle" style="font-weight:900;font-size:18px"></div>
+                <div class="meta" id="modalMatchTime"></div>
+              </div>
+              <div><button class="btn ghost" id="closeModal">Close</button></div>
+            </div>
+
+            <div style="margin-top:12px" class="market-tabs" id="marketTabs">
+              <!-- market tabs injected -->
+            </div>
+
+            <div id="marketContent">
+              <!-- content injected: markets, stats, comments -->
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT -->
+      <aside class="rightcol" aria-label="Right Column">
+        <div style="margin-bottom:12px">
+          <div class="section-title">Live Scores & Virtuals</div>
+          <div id="liveArea">
+            <!-- show live scores placeholder -->
+            <div style="color:var(--muted)">No live matches (demo). Use API to load live scores.</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <div class="section-title">Sports</div>
+          <div class="list" id="rightSportsList">
+            <!-- right sports list -->
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <div class="section-title">Promotions</div>
+          <div class="list" id="promoList">
+            <a href="#"><span>Welcome Bonus</span><span class="badge">New</span></a>
+            <a href="#"><span>Refer & Earn</span><span class="badge">Popular</span></a>
+            <a href="#"><span>Spin2Win Offer</span><span class="badge">HOT</span></a>
+          </div>
+        </div>
+
+        <div class="betslip">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:900">Bet Slip</div>
+            <div style="color:var(--muted);font-size:12px" id="slipCount">0</div>
+          </div>
+          <div id="betItems" style="margin-top:8px">
+            <div class="meta">No selections yet</div>
+          </div>
+
+          <div style="margin-top:10px">
+            <input id="stakeInput" class="stake-input" placeholder="Enter stake amount" />
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn ghost" id="clearSlipBtn">Clear</button>
+              <button class="btn primary" id="placeBetBtn">Place Bet (Demo)</button>
+            </div>
+            <div style="margin-top:8px;color:var(--muted)" id="potentialText">Potential: ₦0</div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- bottom nav -->
+    <div style="height:70px"></div>
+    <div class="bottom-nav" role="navigation">
+      <div class="nav-item active" data-nav="home"><div>🏠</div><div>Home</div></div>
+      <div class="nav-item" data-nav="az"><div>🔠</div><div>AZ Menu</div></div>
+      <div class="nav-item" data-nav="games"><div>🎮</div><div>Games</div></div>
+      <div class="nav-item" data-nav="openbet"><div>📤</div><div>Open Bet</div></div>
+      <div class="nav-item" data-nav="profile"><div>👤</div><div>Me</div></div>
+    </div>
+
+    <footer style="margin-top:14px;text-align:center;color:var(--muted)">
+      <div style="display:flex;justify-content:center;gap:20px;align-items:center">
+        <div style="display:flex;align-items:center;gap:6px"><div class="logo" style="width:36px;height:36px;font-size:14px">GB</div><div style="font-weight:800">GoldBet</div></div>
+        <a href="#">AZ Menu</a> <a href="#">Games</a> <a href="#">Open Bet</a> <a href="#">Bet Slip</a> <a href="#">Me</a>
+      </div>
+      <div style="margin-top:8px">© <span id="year"></span> GoldBet. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <!-- Simple deposit modal -->
+  <div class="modal-back" id="depositModal" style="display:none">
+    <div class="modal" style="max-width:420px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:900">Deposit (Demo)</div>
+        <button class="btn ghost" id="closeDeposit">Close</button>
+      </div>
+      <div style="margin-top:12px">
+        <input id="depositAmt" placeholder="Enter amount (e.g. 1000)" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit">
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn primary" id="confirmDeposit">Deposit</button>
+          <button class="btn ghost" id="depositCancel">Cancel</button>
+        </div>
+        <div style="color:var(--muted);margin-top:8px">Demo deposit: no real money. Later integrate Paystack/Flutterwave here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- markets modal templates reused -->
+  <script>
+    // ---------------- Demo Data ----------------
+    const SPORTS = ['football','volleyball','basketball','tabletennis','icehockey','beachvolley','handball','badminton','rugby','futsal','cricket','boxing','mma','snooker','darts','counterstrike','lol','dota2','ebasketball','goldbet-sim'];
+    const SPORT_LABEL = {
+      football:'Football', volleyball:'Volleyball', basketball:'Basketball', tabletennis:'Table Tennis',
+      icehockey:'Ice Hockey', beachvolley:'Beach Volley', handball:'Handball', badminton:'Badminton',
+      rugby:'Rugby', futsal:'Futsal', cricket:'Cricket', boxing:'Boxing', mma:'MMA', snooker:'Snooker',
+      darts:'Darts', counterstrike:'Counter Strike', lol:'League of Legends', dota2:'Dota 2', ebasketball:'eBasketball', 'goldbet-sim':'GoldBet SIM'
+    };
+
+    const GAMES = ['Sports Hero','Red Block','Spin2Win','Even Odd','Black Jackpot','Fruit Hunt','Rush Spin','Da Bottle','Scorched Fortune','Slot Royale','Lucky Wheel','Crash','Mines','Coin Flip'];
+
+    // sample matches generator
+    function sampleMatches(sport, count=6,start=0){
+      const out=[]; for(let i=0;i<count;i++){
+        const id = sport + '-' + (start+i+1);
+        const teamA = ['Team A','Team B','United','City','Rovers','Stars','Warriors','Tigers'][Math.floor(Math.random()*8)];
+        const teamB = ['FC','Athletic','Hotspur','Rangers','Eagles','Wolves','Lions','Galaxy'][Math.floor(Math.random()*8)];
+        const time = Math.random()>0.5 ? 'Live' : `${Math.floor(Math.random()*23)+1}:00`;
+        const odds = (sport==='basketball') ? [1.8 + Math.random(),1.9 + Math.random()] : [1.8 + Math.random(),3.1 + Math.random(),2+Math.random()];
+        out.push({id, title: `${teamA} ${Math.floor(Math.random()*90)} vs ${teamB}`, time, odds});
+      } return out;
+    }
+
+    // state
+    const state = {
+      sport: 'football',
+      matches: { football: sampleMatches('football',8), basketball: sampleMatches('basketball',4), volleyball: sampleMatches('volleyball',4), tabletennis: sampleMatches('tabletennis',4) },
+      slip: [],
+      balance: 0
+    };
+
+    // ---------------- DOM refs ----------------
+    const sportsTabs = document.getElementById('sportsTabs');
+    const cardsList = document.getElementById('cardsList');
+    const featuredOdds = document.getElementById('featuredOdds');
+    const featuredMarketsList = document.getElementById('featuredMarketsList');
+    const gamesGrid = document.getElementById('gamesGrid');
+    const featuredTeams = document.getElementById('featuredTeams');
+    const featuredTime = document.getElementById('featuredTime');
+    const rightSportsList = document.getElementById('rightSportsList');
+    const betItems = document.getElementById('betItems');
+    const slipCount = document.getElementById('slipCount');
+    const balanceText = document.getElementById('balanceText');
+    const potentialText = document.getElementById('potentialText');
+
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------------- Init UI ----------------
+    function init(){
+      // top sports tabs from our SPORTS list (show main few first and a More)
+      const mainTabList = ['football','basketball','tabletennis','volleyball'];
+      mainTabList.forEach(s=>{
+        const btn = document.createElement('button'); btn.className='sport-tab'; btn.textContent = SPORT_LABEL[s]||s; btn.dataset.sport=s;
+        if(s===state.sport) btn.classList.add('active');
+        btn.addEventListener('click', ()=>{ state.sport=s; renderMatches(); document.querySelectorAll('.sport-tab').forEach(b=>b.classList.toggle('active', b.dataset.sport===s)) });
+        sportsTabs.appendChild(btn);
+      });
+      // More sports on button
+      const moreBtn = document.createElement('button'); moreBtn.className='sport-tab'; moreBtn.textContent='All Sports';
+      moreBtn.addEventListener('click', ()=> showAllSportsModal());
+      sportsTabs.appendChild(moreBtn);
+
+      // right sports list
+      SPORTS.slice(0,8).forEach(s=>{
+        const a = document.createElement('a'); a.href='#'; a.textContent = SPORT_LABEL[s] || s; a.addEventListener('click',(e)=>{ e.preventDefault(); state.sport=s; document.querySelectorAll('.sport-tab').forEach(b=>b.classList.remove('active')); renderMatches(); });
+        rightSportsList.appendChild(a);
+      });
+
+      // featured
+      renderFeatured();
+
+      // games
+      GAMES.slice(0,9).forEach(g=>{
+        const gc = document.createElement('div'); gc.className='game-card'; gc.innerHTML = `<div style="font-weight:800">${g}</div><div style="color:var(--muted);font-size:12px">Play & Win</div><div style="margin-top:8px"><button class="load-more" onclick="openGame('${g}')">Play</button></div>`;
+        gamesGrid.appendChild(gc);
+      });
+
+      // featured markets sample
+      ['1x2','Over/Under','Handicap','GG/NG'].forEach(m=>{
+        const el = document.createElement('div'); el.style.padding='8px 0'; el.innerHTML = `<div style="font-weight:800">${m}</div><div style="color:var(--muted);font-size:12px">Sample market</div>`;
+        featuredMarketsList.appendChild(el);
+      });
+
+      renderMatches();
+      renderBetSlip();
+      updateBalance();
+    }
+
+    // ---------------- Render functions ----------------
+    function renderFeatured(){
+      const m = state.matches.football[0] || {title:'No match',time:'--:--',odds:[1.8,3.2,2.7]};
+      featuredTeams.textContent = m.title;
+      featuredTime.textContent = 'Featured • ' + m.time;
+      featuredOdds.innerHTML = '';
+      (m.odds||[]).forEach(o=>{
+        const b = document.createElement('button'); b.className='odd-btn'; b.style.marginRight='8px'; b.innerHTML = `<div class="od">${o.toFixed(2)}</div><div class="meta" style="font-size:12px">Pick</div>`;
+        b.addEventListener('click', ()=> openMarketModal(m,'1x2'));
+        featuredOdds.appendChild(b);
+      });
+    }
+
+    function renderMatches(){
+      // show matches of current sport
+      const list = state.matches[state.sport] || sampleMatches(state.sport,6);
+      cardsList.innerHTML = '';
+      list.forEach(m=>{
+        const card = document.createElement('div'); card.className='match-card';
+        card.innerHTML = `<div class="match-top"><div><div class="teams">${m.title}</div><div class="meta">${m.time}</div></div><div class="meta">Market: 1x2</div></div>`;
+        const oddsWrap = document.createElement('div'); oddsWrap.className='odds';
+        (m.odds||[]).forEach(o=>{
+          const ob = document.createElement('div'); ob.className='odd-btn'; ob.innerHTML = `<div class="od">${o.toFixed(2)}</div><div class="meta" style="font-size:12px">Pick</div>`;
+          ob.addEventListener('click', ()=> addToSlip(m,o));
+          oddsWrap.appendChild(ob);
+        });
+        card.appendChild(oddsWrap);
+        cardsList.appendChild(card);
+      });
+    }
+
+    // add match to slip
+    function addToSlip(match, odd){
+      // avoid duplicates (same match+odd)
+      if(state.slip.find(s=>s.id===match.id && s.odd===odd)){ alert('Selection already in slip'); return; }
+      state.slip.push({id:match.id,title:match.title,odd});
+      renderBetSlip();
+    }
+
+    function renderBetSlip(){
+      slipCount.textContent = state.slip.length;
+      if(state.slip.length===0){ betItems.innerHTML = `<div class="meta">No selections yet</div>`; potentialText.textContent='Potential: ₦0'; return; }
+      betItems.innerHTML = '';
+      let mul = 1;
+      state.slip.forEach((s,idx)=>{
+        mul *= s.odd;
+        const div = document.createElement('div'); div.className='bet-item';
+        div.innerHTML = `<div style="flex:1"><div style="font-weight:800">${s.title}</div><div class="meta">${s.odd.toFixed(2)}</div></div><div style="text-align:right"><button class="btn ghost" data-idx="${idx}">Remove</button></div>`;
+        betItems.appendChild(div);
+      });
+      // remove handlers
+      betItems.querySelectorAll('button[data-idx]').forEach(b=> b.addEventListener('click', (e)=>{ const i=Number(e.target.dataset.idx); state.slip.splice(i,1); renderBetSlip(); }));
+      // potential
+      const stake = Number(document.getElementById('stakeInput').value || 0);
+      const pot = stake ? Math.floor(stake * mul) : 0;
+      potentialText.textContent = `Potential: ₦${pot.toLocaleString()}`;
+    }
+
+    function updateBalance(){
+      balanceText.textContent = `₦${state.balance.toLocaleString()}.00`;
+    }
+
+    // ---------------- Load more / games / jackpot ----------------
+    document.getElementById('loadMoreMatches').addEventListener('click', ()=>{
+      // append sample matches
+      const more = sampleMatches(state.sport,4,state.matches[state.sport].length);
+      state.matches[state.sport] = state.matches[state.sport].concat(more);
+      renderMatches();
+    });
+
+    document.getElementById('btnMoreGames').addEventListener('click', ()=>{
+      // append extra game cards
+      GAMES.slice(0,6).forEach(g=>{
+        const gc = document.createElement('div'); gc.className='game-card'; gc.innerHTML = `<div style="font-weight:800">${g}+</div><div style="color:var(--muted);font-size:12px">New</div><div style="margin-top:8px"><button class="load-more" onclick="openGame('${g}+')">Play</button></div>`;
+        gamesGrid.appendChild(gc);
+      });
+    });
+
+    function openGame(name){
+      alert('Open game (demo): ' + name + '. Later connect to game engine or iframe.');
+    }
+
+    document.getElementById('btnJackpot').addEventListener('click', ()=> alert('Jackpot entry page (demo)'));
+
+    // ---------------- Markets modal ----------------
+    const marketModal = document.getElementById('marketModal');
+    const modalMatchTitle = document.getElementById('modalMatchTitle');
+    const modalMatchTime = document.getElementById('modalMatchTime');
+    const marketTabs = document.getElementById('marketTabs');
+    const marketContent = document.getElementById('marketContent');
+    document.getElementById('closeModal').addEventListener('click', ()=> marketModal.style.display='none');
+
+    function openMarketModal(match, defaultMarket='1x2'){
+      marketModal.style.display='flex';
+      modalMatchTitle.textContent = match.title;
+      modalMatchTime.textContent = match.time;
+      // tabs
+      const markets = ['All','1x2','1x2 1up','1x2 UO','Over/Under','Asian O/U','Double Chance','List Goal','Handicap','Asian Handicap','Home/Away O','GG/NG','GG/NG2+','Minutes','Player','Teams Booking','Special'];
+      marketTabs.innerHTML = '';
+      markets.forEach(mk=>{
+        const btn = document.createElement('button'); btn.className='market-tab'; btn.textContent = mk;
+        btn.addEventListener('click', ()=> { marketTabs.querySelectorAll('.market-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderMarketContent(match, mk); });
+        marketTabs.appendChild(btn);
+        if(mk===defaultMarket || (mk==='All' && defaultMarket==='All')) { btn.classList.add('active'); renderMarketContent(match, mk); }
+      });
+    }
+
+    function renderMarketContent(match, marketKey){
+      marketContent.innerHTML = '';
+      // if stats or comments requested
+      if(marketKey==='Stats' || marketKey==='Statistics'){ marketContent.innerHTML = `<div class="meta">Stats area (demo)</div>`; return; }
+      // for demo, show some sample market rows
+      for(let i=0;i<6;i++){
+        const row = document.createElement('div'); row.className='market-row';
+        const label = `${marketKey} - Option ${i+1}`;
+        const odd = (1.3 + Math.random()*3).toFixed(2);
+        row.innerHTML = `<div>${label}</div><div style="text-align:right"><strong style="color:var(--gold-2)">${odd}</strong> <button class="btn ghost" onclick='addToSlip({id:"${match.id}",title:"${match.title}"},${odd})'>Add</button></div>`;
+        marketContent.appendChild(row);
+      }
+      // comments area
+      const comments = document.createElement('div'); comments.style.marginTop='8px'; comments.innerHTML = `<div style="font-weight:800;margin-top:8px">Comments</div><div class="meta">No comments (demo). Integrate live chat / API.</div>`;
+      marketContent.appendChild(comments);
+    }
+
+    // ---------------- Deposit modal ----------------
+    document.getElementById('btnDeposit').addEventListener('click', ()=> document.getElementById('depositModal').style.display='flex');
+    document.getElementById('closeDeposit').addEventListener('click', ()=> document.getElementById('depositModal').style.display='none');
+    document.getElementById('depositCancel').addEventListener('click', ()=> document.getElementById('depositModal').style.display='none');
+    document.getElementById('confirmDeposit').addEventListener('click', ()=>{
+      const v = Number(document.getElementById('depositAmt').value || 0);
+      if(!v || v<=0) return alert('Enter valid amount');
+      state.balance += v;
+      updateBalance();
+      document.getElementById('depositModal').style.display='none';
+      alert('Deposit successful (demo).');
+    });
+
+    // ---------------- Place bet ----------------
+    document.getElementById('placeBetBtn').addEventListener('click', ()=>{
+      const stake = Number(document.getElementById('stakeInput').value || 0);
+      if(state.slip.length===0) return alert('No selections');
+      if(stake<=0) return alert('Enter stake');
+      if(state.balance < stake) {
+        if(!confirm('Insufficient balance. Continue as demo simulated bet?')) return;
+      } else {
+        state.balance -= stake;
+        updateBalance();
+      }
+      alert('Bet placed (demo). Potential: ' + potentialText.textContent);
+      state.slip = [];
+      document.getElementById('stakeInput').value = '';
+      renderBetSlip();
+    });
+
+    // ---------------- Clear slip etc ----------------
+    document.getElementById('clearSlipBtn').addEventListener('click', ()=> { if(confirm('Clear selections?')){ state.slip=[]; renderBetSlip(); } });
+    document.getElementById('btnSearch').addEventListener('click', ()=> {
+      const q = document.getElementById('globalSearch').value.trim().toLowerCase();
+      if(!q) return renderMatches();
+      // filter matches by title
+      const matches = (state.matches[state.sport] || []).filter(m=> m.title.toLowerCase().includes(q));
+      cardsList.innerHTML = '';
+      matches.forEach(m=>{
+        const card=document.createElement('div'); card.className='match-card'; card.innerHTML = `<div class="teams">${m.title}</div><div class="meta">${m.time}</div>`;
+        cardsList.appendChild(card);
+      });
+    });
+
+    // bottom nav interactions (az menu loads virtuals etc)
+    document.querySelectorAll('.nav-item').forEach(it=>{
+      it.addEventListener('click', ()=> {
+        const nav = it.dataset.nav;
+        document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+        it.classList.add('active');
+        if(nav==='az') showAllSportsModal();
+        if(nav==='games') window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+      });
+    });
+
+    // show big sports list modal (simple)
+    function showAllSportsModal(){
+      // reuse market modal as simple list
+      marketModal.style.display='flex';
+      modalMatchTitle.textContent = 'All Sports';
+      modalMatchTime.textContent = '';
+      marketTabs.innerHTML = '';
+      marketContent.innerHTML = '';
+      SPORTS.forEach(s=>{
+        const r = document.createElement('div'); r.style.padding='8px 0'; r.innerHTML = `<strong>${SPORT_LABEL[s]||s}</strong> <div class="meta">Click to view</div>`;
+        r.addEventListener('click', ()=>{ marketModal.style.display='none'; state.sport = s; renderMatches(); });
+        marketContent.appendChild(r);
+      });
+    }
+
+    function updateBalance(){ balanceText.textContent = `₦${state.balance.toLocaleString()}.00`; }
+
+    // featured markets sample click handler
+    document.getElementById('featuredMarketsList').addEventListener('click', ()=> openMarketModal(state.matches.football[0]||{id:'f1',title:'Demo',time:'--:--'}));
+
+    // init
+    init();
+
+    // accessibility: close modals on escape
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ document.getElementById('marketModal').style.display='none'; document.getElementById('depositModal').style.display='none'; }});
+  </script>
+</body>
+</html>
