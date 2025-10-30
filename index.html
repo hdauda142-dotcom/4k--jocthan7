@@ -1,254 +1,444 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoldBet - Sports Betting</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #000;
-      color: #f1c40f;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GoldBet — Bet Smart. Your Sure Way to Golden Wins.</title>
+<meta name="description" content="GoldBet demo — SportyBet-style, dark stadium theme" />
+<style>
+  /* ---------- Theme ---------- */
+  :root{
+    --bg:#000;
+    --panel:#0c0c0c;
+    --muted:#bfb8ae;
+    --gold:#FFD700;
+    --green:#00B140;
+    --glass: rgba(255,255,255,0.03);
+    --radius:12px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#fff; background:#000; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+  a{color:var(--gold); text-decoration:none}
 
-    header {
-      background: linear-gradient(90deg, #000, #111);
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #f1c40f;
-    }
+  /* blurred stadium */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:-2;
+    background-image: url('https://images.unsplash.com/photo-1517927033932-b3d8f0dde166?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&s=0a4f0ee9b5c3f7a5b4b4d5f6e223c3f5');
+    background-size:cover;background-position:center;
+    filter:blur(12px) brightness(.35);
+    transform:scale(1.02);
+  }
+  /* content overlay to increase contrast */
+  body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0.55),rgba(0,0,0,0.65));}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #f1c40f;
-    }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:10px}
 
-    nav {
-      display: flex;
-      gap: 16px;
-    }
+  /* ---------- Loader ---------- */
+  #loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;background:linear-gradient(180deg,rgba(0,0,0,0.75),rgba(0,0,0,0.85));}
+  .loader-circle{width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--gold), transparent 40%);filter:blur(6px);animation:rot 1.6s linear infinite;margin-bottom:12px}
+  @keyframes rot{to{transform:rotate(360deg)}}
 
-    nav a {
-      color: #f1c40f;
-      text-decoration: none;
-      font-weight: 600;
-    }
+  /* ---------- Header (sticky) ---------- */
+  header{position:sticky;top:0;z-index:40;backdrop-filter:blur(6px);background:linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35));border-bottom:1px solid rgba(255,255,255,0.03)}
+  .header-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo img{height:46px;display:block}
+  .search-wrap{flex:1;display:flex;align-items:center;gap:8px;padding:6px 8px}
+  .search-wrap input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#fff}
+  .top-actions{display:flex;gap:8px;align-items:center}
+  .btn{padding:8px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:700;background:transparent;color:var(--muted)}
+  .btn.deposit{background:linear-gradient(90deg,var(--green),#53d37a);color:#021}
+  .btn.login{background:linear-gradient(90deg,var(--gold),#ffdf7a);color:#091}
+  .balance{font-weight:800;color:var(--gold);padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.35)}
 
-    nav a:hover {
-      color: white;
-    }
+  /* ---------- Sports navigation ---------- */
+  .sports-nav{display:flex;gap:10px;padding:10px 6px;overflow:auto;border-bottom:1px solid rgba(255,255,255,0.02);background:linear-gradient(90deg, rgba(0,0,0,0.12), rgba(0,0,0,0.06))}
+  .tab{flex:0 0 auto;padding:8px 14px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.02);color:var(--muted);cursor:pointer;font-weight:700}
+  .tab.active{background:rgba(0,0,0,0.45);color:var(--gold);box-shadow:0 6px 18px rgba(0,0,0,0.6)}
 
-    .tabs {
-      display: flex;
-      justify-content: center;
-      background-color: #111;
-      border-bottom: 1px solid #333;
-    }
+  /* ---------- Layout columns ---------- */
+  .content{display:grid;grid-template-columns:220px 1fr 320px;gap:12px;padding:14px;max-width:var(--maxw);margin:0 auto}
+  @media (max-width:980px){ .content{grid-template-columns:1fr; padding:10px} .rightcol,.leftcol{order:2} }
 
-    .tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: 600;
-      border-bottom: 3px solid transparent;
-    }
+  .leftcol,.rightcol{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);height:calc(100vh - 180px);overflow:auto}
+  .center{min-height:60vh}
 
-    .tab.active {
-      border-color: #f1c40f;
-      background-color: #1a1a1a;
-    }
+  /* left lists */
+  .section-title{font-weight:900;color:var(--gold);margin-bottom:8px}
+  .list a{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;color:var(--muted);margin-bottom:8px;background:transparent;border:1px solid rgba(255,255,255,0.02)}
 
-    .games {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 10px;
-    }
+  /* featured matches list */
+  .featured{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);margin-bottom:12px}
+  .match-row{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:8px;margin-bottom:8px;background:rgba(0,0,0,0.38);border:1px solid rgba(255,255,255,0.02)}
+  .teams{font-weight:800}
+  .meta{color:var(--muted);font-size:13px}
+  .odds{display:flex;gap:8px}
+  .odd{min-width:62px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:800;transition:all .14s}
+  .odd.active, .odd:hover{background:linear-gradient(90deg,var(--gold),#ffd77a);color:#080; box-shadow:0 8px 22px rgba(255,215,55,0.12); transform:translateY(-3px)}
 
-    .match {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #111;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
+  /* games grid */
+  .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+  .game-card{padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);text-align:center}
 
-    .teams {
-      font-size: 16px;
-      font-weight: 600;
-    }
+  /* bet slip */
+  .betslip{position:sticky;top:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .bet-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
+  .stake{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
 
-    .odds button {
-      background: #f1c40f;
-      color: #000;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin-left: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+  /* market modal */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:9999;padding:12px}
+  .modal{max-width:900px;width:100%;background:linear-gradient(180deg,#0b0b0b,#0b0b0b);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04)}
 
-    .odds button:hover {
-      background: #ffda44;
-    }
+  /* bottom nav */
+  .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(90deg,rgba(0,0,0,0.6),rgba(0,0,0,0.8));display:flex;justify-content:space-around;padding:8px 6px;border-top:1px solid rgba(255,255,255,0.02);z-index:50}
+  .nav-item{display:flex;flex-direction:column;align-items:center;color:var(--muted);font-size:12px}
+  .nav-item.active{color:var(--gold)}
 
-    footer {
-      text-align: center;
-      color: #aaa;
-      padding: 20px;
-      background: #000;
-      border-top: 1px solid #222;
-      margin-top: 40px;
-    }
-
-    /* Popup */
-    .popup {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .popup-content {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
-      width: 90%;
-      border: 2px solid #f1c40f;
-      color: #f1c40f;
-    }
-
-    .popup-content h2 {
-      margin-top: 0;
-    }
-
-    .popup-content button {
-      margin-top: 10px;
-      background: #f1c40f;
-      color: #000;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .popup-content button:hover {
-      background: #ffda44;
-    }
-  </style>
+  footer{padding:12px;text-align:center;color:var(--muted);margin-top:18px}
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">🏆 GoldBet</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Live</a>
-      <a href="#">Results</a>
-      <a href="#">Login</a>
-    </nav>
-  </header>
-
-  <div class="tabs">
-    <div class="tab active" data-sport="football">Football</div>
-    <div class="tab" data-sport="basketball">Basketball</div>
-    <div class="tab" data-sport="tabletennis">Table Tennis</div>
-    <div class="tab" data-sport="volleyball">Volleyball</div>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-circle"></div>
+    <div style="font-weight:900;color:var(--gold);font-size:18px">GoldBet</div>
+    <div style="color:var(--muted);margin-top:8px">Loading…</div>
   </div>
 
-  <main class="games" id="gamesList"></main>
+  <header>
+    <div class="header-inner wrap">
+      <div class="logo">
+        <!-- Make sure your uploaded logo filename is exactly 'goldbet.png' (case-sensitive) -->
+        <img src="goldbet.png" alt="GoldBet Logo" onerror="this.style.display='none'">
+        <div style="display:none">
+          <div style="font-weight:900">GoldBet</div>
+          <div style="font-size:12px;color:var(--muted)">Bet Smart. Win Big.</div>
+        </div>
+      </div>
 
-  <footer>© <span id="year"></span> GoldBet — Smart Bets, Golden Wins</footer>
+      <div class="search-wrap" role="search">
+        <input id="searchInput" placeholder="Search matches, teams or markets…" aria-label="Search">
+        <button class="btn" id="searchBtn" title="Search">🔍</button>
+      </div>
 
-  <div class="popup" id="betPopup">
-    <div class="popup-content">
-      <h2>Place Your Bet</h2>
-      <p id="betDetails"></p>
-      <input type="number" id="betAmount" placeholder="Enter amount" style="width:100%;padding:8px;margin:8px 0;border-radius:6px;border:none;">
-      <button onclick="confirmBet()">Confirm</button>
-      <button onclick="closePopup()">Cancel</button>
+      <div class="top-actions">
+        <div class="balance" id="balanceText">₦0.00</div>
+        <button class="btn deposit" id="btnDeposit">Deposit</button>
+        <button class="btn login" id="btnLogin">Login / Register</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- sports nav -->
+  <div class="sports-nav wrap" id="sportsNav">
+    <button class="tab active" data-sport="football">Football</button>
+    <button class="tab" data-sport="basketball">Basketball</button>
+    <button class="tab" data-sport="tabletennis">Table Tennis</button>
+    <button class="tab" data-sport="volleyball">Volleyball</button>
+    <button class="tab" data-sport="virtuals">Virtuals</button>
+    <button class="tab" data-sport="jackpot">Jackpot</button>
+    <button class="tab" data-sport="promos">Promotions</button>
+    <div style="flex:1"></div>
+    <button class="btn" id="btnMore">More</button>
+  </div>
+
+  <!-- main content -->
+  <div class="content wrap" role="main">
+    <!-- left column -->
+    <aside class="leftcol" aria-label="Left sidebar">
+      <div class="section-title">Quick Links</div>
+      <div class="list">
+        <a href="#"><span>Live</span><span>●</span></a>
+        <a href="#"><span>My Favourites</span><span>★</span></a>
+        <a href="#"><span>Today's Football</span><span>+120</span></a>
+        <a href="#"><span>Football next 3 hours</span><span>20</span></a>
+      </div>
+      <hr style="border:none;height:12px">
+      <div class="section-title">Leagues</div>
+      <div class="list">
+        <a href="#"><span>England - Premier League</span><span>EPL</span></a>
+        <a href="#"><span>Spain - LaLiga</span><span>LaLiga</span></a>
+        <a href="#"><span>Italy - Serie A</span><span>Serie A</span></a>
+        <a href="#"><span>Germany - Bundesliga</span><span>Bundes</span></a>
+        <a href="#"><span>France - Ligue 1</span><span>Ligue1</span></a>
+      </div>
+      <hr style="border:none;height:12px">
+      <div class="section-title">Other</div>
+      <div class="list">
+        <a href="#" id="linkVirtuals">Virtuals</a>
+        <a href="#" id="linkJackpot">Jackpot</a>
+        <a href="#" id="linkResults">Results</a>
+      </div>
+    </aside>
+
+    <!-- center -->
+    <section class="center">
+      <div class="featured" id="featuredArea">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:900;font-size:18px">Featured Matches</div>
+            <div style="color:var(--muted);font-size:13px">Top matches and markets</div>
+          </div>
+          <div>
+            <button class="btn" id="quickLive">Live</button>
+            <button class="btn" id="quickMatches">Matches</button>
+          </div>
+        </div>
+
+        <div id="featuredList" style="margin-top:12px">
+          <!-- featured matches injected by JS -->
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-weight:900">Markets</div>
+          <div style="color:var(--muted)">All • Main • Goals • Corners • Handicap • Player • Specials</div>
+        </div>
+
+        <div id="matchCards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px">
+          <!-- match cards injected here -->
+        </div>
+
+        <div style="text-align:center;margin-top:12px">
+          <button class="btn" id="loadMore">Load more matches</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- right column -->
+    <aside class="rightcol" aria-label="Right column">
+      <div style="margin-bottom:12px">
+        <div class="section-title">Games</div>
+        <div class="games-grid" id="gamesGrid">
+          <!-- game cards -->
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="section-title">Promotions</div>
+        <div class="list">
+          <a href="#"><span>Welcome Bonus</span><span>New</span></a>
+          <a href="#"><span>Refer & Earn</span><span>Popular</span></a>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="betslip">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:900">Bet Slip</div>
+          <div id="slipCount" style="color:var(--muted)">0</div>
+        </div>
+        <div id="betItems" style="margin-top:8px;color:var(--muted)">No selections</div>
+
+        <div style="margin-top:10px">
+          <input id="stake" class="stake" placeholder="Enter stake (₦)" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" id="clearSlip">Clear</button>
+            <button class="btn deposit" id="placeBet">Place Bet</button>
+          </div>
+          <div style="margin-top:8px;color:var(--muted)" id="potential">Potential: ₦0</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- bottom nav -->
+  <div class="bottom-nav" role="navigation">
+    <div class="nav-item active"><div>🏠</div><div>Home</div></div>
+    <div class="nav-item"><div>🔠</div><div>AZ Menu</div></div>
+    <div class="nav-item"><div>🎮</div><div>Games</div></div>
+    <div class="nav-item"><div>🧾</div><div>Open Bets</div></div>
+    <div class="nav-item"><div>👤</div><div>Me</div></div>
+  </div>
+
+  <footer style="max-width:var(--maxw);margin:10px auto 80px auto;padding:10px;text-align:center;color:var(--muted)">
+    <div style="display:flex;justify-content:center;gap:12px;align-items:center">
+      <img src="goldbet.png" alt="GoldBet" style="height:36px" onerror="this.style.display='none'">
+      <div style="font-weight:900">GoldBet</div>
+    </div>
+    <div style="margin-top:8px">© <span id="year"></span> GoldBet. All rights reserved.</div>
+  </footer>
+
+  <!-- deposit modal -->
+  <div class="modal-back" id="depositModal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:900">Deposit (Demo)</div><button class="btn" id="closeDeposit">Close</button></div>
+      <div style="margin-top:12px">
+        <input id="depositAmount" placeholder="Amount (NGN)" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit">
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn deposit" id="confirmDeposit">Deposit</button><button class="btn" id="cancelDeposit">Cancel</button></div>
+        <p style="color:var(--muted);margin-top:8px">Demo deposit — integrate Paystack / Flutterwave later.</p>
+      </div>
     </div>
   </div>
 
-  <script>
-    const games = {
-      football: [
-        {match: 'Man City vs Arsenal', odds: [2.1, 3.4, 3.2]},
-        {match: 'Chelsea vs Liverpool', odds: [2.8, 3.3, 2.5]},
-        {match: 'Barcelona vs Real Madrid', odds: [2.6, 3.6, 2.7]}
-      ],
-      basketball: [
-        {match: 'Lakers vs Warriors', odds: [1.9, 2.4]},
-        {match: 'Celtics vs Bulls', odds: [2.2, 2.9]}
-      ],
-      tabletennis: [
-        {match: 'Ma Long vs Fan Zhendong', odds: [1.8, 2.0]},
-        {match: 'Timo Boll vs Tomokazu Harimoto', odds: [2.1, 1.9]}
-      ],
-      volleyball: [
-        {match: 'Brazil vs USA', odds: [2.3, 2.6]},
-        {match: 'Italy vs France', odds: [2.0, 2.9]}
-      ]
-    };
+  <!-- login modal -->
+  <div class="modal-back" id="loginModal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div id="loginTitle" style="font-weight:900">Login</div><button class="btn" id="closeLogin">Close</button></div>
+      <div style="margin-top:12px">
+        <input id="email" placeholder="Email" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit;margin-bottom:8px">
+        <input id="password" placeholder="Password" type="password" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit">
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn login" id="confirmLogin">Login</button><button class="btn" id="toRegister">Register</button></div>
+        <p style="color:var(--muted);margin-top:8px">Demo authentication only.</p>
+      </div>
+    </div>
+  </div>
 
-    const gamesList = document.getElementById('gamesList');
-    const popup = document.getElementById('betPopup');
-    const betDetails = document.getElementById('betDetails');
-    const year = document.getElementById('year');
-    year.textContent = new Date().getFullYear();
+  <!-- market modal for viewing markets/stats/comments -->
+  <div class="modal-back" id="marketModal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div id="marketTitle" style="font-weight:900"></div><button class="btn" id="closeMarket">Close</button></div>
+      <div style="margin-top:12px">
+        <div class="meta" id="marketInfo"></div>
+        <div id="marketRows" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
 
-    function renderGames(sport) {
-      gamesList.innerHTML = '';
-      games[sport].forEach(g => {
-        const div = document.createElement('div');
-        div.className = 'match';
-        div.innerHTML = `
-          <div class="teams">${g.match}</div>
-          <div class="odds">
-            ${g.odds.map((o, i) => `<button onclick="openPopup('${g.match}', ${o})">${o}</button>`).join('')}
-          </div>
-        `;
-        gamesList.appendChild(div);
-      });
-    }
+<script>
+  // ---------- Data & helpers ----------
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    function openPopup(match, odd) {
-      popup.style.display = 'flex';
-      betDetails.textContent = `You selected: ${match} at odds ${odd}`;
-    }
+  const featuredMatches = [
+    {id:'m1',teams:'Arsenal vs Chelsea', time:'Today 15:00', odds:[1.46,4.90,7.58]},
+    {id:'m2',teams:'Real Madrid vs Barcelona', time:'Tomorrow 20:00', odds:[1.95,3.60,4.10]},
+    {id:'m3',teams:'Man City vs Liverpool', time:'Today 18:00', odds:[1.70,3.20,4.50]},
+    {id:'m4',teams:'Bayern vs Dortmund', time:'Tomorrow 16:00', odds:[1.65,3.90,5.00]}
+  ];
 
-    function closePopup() {
-      popup.style.display = 'none';
-    }
+  const games = ['Spin2Win','Red Block','Even Odd','Black Jackpot','Fruit Hunt','Rush Spin','Da Bottle','Scorched Fortune'];
 
-    function confirmBet() {
-      const amt = document.getElementById('betAmount').value;
-      if (!amt) return alert('Enter a bet amount');
-      alert(`Bet placed: ₦${amt} — Good luck!`);
-      closePopup();
-    }
+  const state = { sport:'football', slip:[], balance:0 };
 
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        renderGames(tab.dataset.sport);
-      });
+  // ---------- Loader ----------
+  window.addEventListener('load', ()=>{
+    setTimeout(()=>{ document.getElementById('loader').style.display='none'; }, 800);
+    init();
+  });
+
+  // ---------- Init UI ----------
+  function init(){
+    renderSportsTabs();
+    renderFeatured();
+    renderMatches();
+    renderGames();
+    updateBalance();
+    attachHandlers();
+  }
+
+  function renderSportsTabs(){
+    document.querySelectorAll('.sports-nav .tab').forEach(t=>{
+      t.addEventListener('click', ()=>{ document.querySelectorAll('.sports-nav .tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); state.sport=t.dataset.sport; renderMatches(); });
+    });
+  }
+
+  function renderFeatured(){
+    const list = document.getElementById('featuredList'); list.innerHTML='';
+    featuredMatches.forEach(m=>{
+      const el = document.createElement('div'); el.className='match-row';
+      el.innerHTML = `<div><div class="teams">${m.teams}</div><div class="meta">${m.time}</div></div><div class="odds">${m.odds.map(o=>`<div class="odd" data-id="${m.id}" data-odd="${o}">${o.toFixed(2)}</div>`).join('')}</div>`;
+      list.appendChild(el);
+    });
+    // attach odd handlers
+    document.querySelectorAll('.odd').forEach(btn=> btn.addEventListener('click', oddClicked));
+  }
+
+  function renderMatches(){
+    const container = document.getElementById('matchCards'); container.innerHTML='';
+    // simple sample matches (reusing featured list or generate more)
+    (featuredMatches).forEach(m=>{
+      const card = document.createElement('div'); card.style.background='rgba(0,0,0,0.35)'; card.style.border='1px solid rgba(255,255,255,0.02)'; card.style.padding='12px'; card.style.borderRadius='10px';
+      card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div class="teams">${m.teams}</div><div class="meta">${m.time}</div></div><div style="color:var(--muted)">Market: 1x2</div></div><div style="margin-top:10px" class="odds">${m.odds.map(o=>`<div class="odd" data-id="${m.id}" data-odd="${o}">${o.toFixed(2)}</div>`).join('')}</div>`;
+      container.appendChild(card);
+    });
+    document.querySelectorAll('.match-card .odd').forEach(x=>x.remove()); // safety
+    document.querySelectorAll('.odd').forEach(btn=> btn.addEventListener('click', oddClicked));
+  }
+
+  function renderGames(){
+    const g = document.getElementById('gamesGrid'); g.innerHTML='';
+    games.forEach(name=>{
+      const card = document.createElement('div'); card.className='game-card'; card.innerHTML = `<div style="font-weight:800">${name}</div><div style="color:var(--muted);font-size:12px">Try & Win</div><div style="margin-top:8px"><button class="btn" onclick="openGame('${name}')">Play</button></div>`;
+      g.appendChild(card);
+    });
+  }
+
+  function updateBalance(){ document.getElementById('balanceText').innerText = `₦${state.balance.toLocaleString()}.00`; }
+
+  // ---------- Interactions ----------
+  function oddClicked(e){
+    const el = e.currentTarget || e.target;
+    // visual - light up briefly
+    document.querySelectorAll('.odd').forEach(o=>o.classList.remove('active'));
+    el.classList.add('active');
+    setTimeout(()=>el.classList.remove('active'), 800);
+
+    // add to slip
+    const id = el.dataset.id;
+    const odd = parseFloat(el.dataset.odd);
+    const title = el.closest('.match-row') ? el.closest('.match-row').querySelector('.teams').innerText : (el.closest('div.match-card') ? el.closest('div.match-card').querySelector('.teams').innerText : 'Match');
+    if(state.slip.find(x=>x.id===id && x.odd===odd)){ alert('Already in slip'); return; }
+    state.slip.push({id, title, odd});
+    renderSlip();
+  }
+
+  function renderSlip(){
+    const items = document.getElementById('betItems'); items.innerHTML='';
+    if(state.slip.length===0){ items.innerHTML = '<div class="meta">No selections</div>'; document.getElementById('slipCount').innerText='0'; document.getElementById('potential').innerText='Potential: ₦0'; return; }
+    state.slip.forEach((s, idx)=>{
+      const el = document.createElement('div'); el.className='bet-item'; el.innerHTML = `<div style="flex:1"><div style="font-weight:800">${s.title}</div><div class="meta">Odd: ${s.odd.toFixed(2)}</div></div><div><button class="btn" data-idx="${idx}">Remove</button></div>`;
+      items.appendChild(el);
+    });
+    items.querySelectorAll('button[data-idx]').forEach(b=>b.addEventListener('click', (ev)=>{ const i=Number(ev.target.dataset.idx); state.slip.splice(i,1); renderSlip(); }));
+    document.getElementById('slipCount').innerText = state.slip.length;
+    computePotential();
+  }
+
+  function computePotential(){
+    const stake = Number(document.getElementById('stake').value || 0); if(!stake){ document.getElementById('potential').innerText='Potential: ₦0'; return; }
+    const mul = state.slip.reduce((acc,s)=>acc * s.odd, 1);
+    document.getElementById('potential').innerText = `Potential: ₦${Math.floor(stake * mul).toLocaleString()}`;
+  }
+
+  // ---------- modals ----------
+  function attachHandlers(){
+    document.getElementById('btnDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='flex');
+    document.getElementById('closeDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='none');
+    document.getElementById('cancelDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='none');
+    document.getElementById('confirmDeposit').addEventListener('click', ()=>{
+      const v = Number(document.getElementById('depositAmount').value || 0); if(!v || v<=0) return alert('Enter amount');
+      state.balance += v; updateBalance(); document.getElementById('depositModal').style.display='none'; alert('Deposit added (demo)');
     });
 
-    renderGames('football');
-  </script>
+    document.getElementById('btnLogin').addEventListener('click', ()=>document.getElementById('loginModal').style.display='flex');
+    document.getElementById('closeLogin').addEventListener('click', ()=>document.getElementById('loginModal').style.display='none');
+    document.getElementById('confirmLogin').addEventListener('click', ()=>{
+      document.getElementById('loginModal').style.display='none'; state.balance = 500; updateBalance(); alert('Logged in (demo). Balance set to ₦500');
+    });
+    document.getElementById('toRegister').addEventListener('click', ()=>{ alert('Register (demo)'); });
+
+    document.getElementById('loadMore').addEventListener('click', ()=>{ featuredMatches.push({id:'m'+(featuredMatches.length+1),teams:'New Team vs New Team',time:'Soon',odds:[1.9,3.2,4.5]}); renderFeatured(); renderMatches(); });
+
+    document.getElementById('placeBet').addEventListener('click', ()=>{
+      const stake = Number(document.getElementById('stake').value || 0); if(state.slip.length===0) return alert('No selections'); if(!stake || stake<=0) return alert('Enter stake');
+      if(state.balance < stake){ if(!confirm('Insufficient balance. Continue as demo?')) return; }
+      state.balance = Math.max(0, state.balance - stake); updateBalance(); alert('Bet placed (demo). Good luck!'); state.slip=[]; document.getElementById('stake').value=''; renderSlip();
+    });
+
+    // market modal
+    document.getElementById('closeMarket').addEventListener('click', ()=>document.getElementById('marketModal').style.display='none');
+    // search
+    document.getElementById('searchBtn').addEventListener('click', ()=>{ const q=document.getElementById('searchInput').value.trim().toLowerCase(); if(!q) return renderMatches(); const filtered = featuredMatches.filter(m=>m.teams.toLowerCase().includes(q)); document.getElementById('matchCards').innerHTML=''; filtered.forEach(m=>{ const card=document.createElement('div'); card.className='match-card'; card.innerHTML = `<div class="teams">${m.teams}</div><div class="meta">${m.time}</div><div class="odds">${m.odds.map(o=>`<div class="odd">${o.toFixed(2)}</div>`).join('')}</div>`; document.getElementById('matchCards').appendChild(card); }); document.querySelectorAll('.odd').forEach(x=>x.addEventListener('click', oddClicked)); });
+    // deposit modal close
+    document.getElementById('closeDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='none');
+  }
+
+  function openGame(name){ alert('Open game (demo): '+name); }
+
+  // close modals on ESC
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal-back').forEach(m=>m.style.display='none'); }});
+</script>
 </body>
 </html>
