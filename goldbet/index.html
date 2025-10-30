@@ -379,4 +379,66 @@
     const id = el.dataset.id;
     const odd = parseFloat(el.dataset.odd);
     const title = el.closest('.match-row') ? el.closest('.match-row').querySelector('.teams').innerText : (el.closest('div.match-card') ? el.closest('div.match-card').querySelector('.teams').innerText : 'Match');
-    if(st
+    if(state.slip.find(x=>x.id===id && x.odd===odd)){ alert('Already in slip'); return; }
+    state.slip.push({id, title, odd});
+    renderSlip();
+  }
+
+  function renderSlip(){
+    const items = document.getElementById('betItems'); items.innerHTML='';
+    if(state.slip.length===0){ items.innerHTML = '<div class="meta">No selections</div>'; document.getElementById('slipCount').innerText='0'; document.getElementById('potential').innerText='Potential: ₦0'; return; }
+    state.slip.forEach((s, idx)=>{
+      const el = document.createElement('div'); el.className='bet-item'; el.innerHTML = `<div style="flex:1"><div style="font-weight:800">${s.title}</div><div class="meta">Odd: ${s.odd.toFixed(2)}</div></div><div><button class="btn" data-idx="${idx}">Remove</button></div>`;
+      items.appendChild(el);
+    });
+    items.querySelectorAll('button[data-idx]').forEach(b=>b.addEventListener('click', (ev)=>{ const i=Number(ev.target.dataset.idx); state.slip.splice(i,1); renderSlip(); }));
+    document.getElementById('slipCount').innerText = state.slip.length;
+    computePotential();
+  }
+
+  function computePotential(){
+    const stake = Number(document.getElementById('stake').value || 0); if(!stake){ document.getElementById('potential').innerText='Potential: ₦0'; return; }
+    const mul = state.slip.reduce((acc,s)=>acc * s.odd, 1);
+    document.getElementById('potential').innerText = `Potential: ₦${Math.floor(stake * mul).toLocaleString()}`;
+  }
+
+  // ---------- modals ----------
+  function attachHandlers(){
+    document.getElementById('btnDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='flex');
+    document.getElementById('closeDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='none');
+    document.getElementById('cancelDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='none');
+    document.getElementById('confirmDeposit').addEventListener('click', ()=>{
+      const v = Number(document.getElementById('depositAmount').value || 0); if(!v || v<=0) return alert('Enter amount');
+      state.balance += v; updateBalance(); document.getElementById('depositModal').style.display='none'; alert('Deposit added (demo)');
+    });
+
+    document.getElementById('btnLogin').addEventListener('click', ()=>document.getElementById('loginModal').style.display='flex');
+    document.getElementById('closeLogin').addEventListener('click', ()=>document.getElementById('loginModal').style.display='none');
+    document.getElementById('confirmLogin').addEventListener('click', ()=>{
+      document.getElementById('loginModal').style.display='none'; state.balance = 500; updateBalance(); alert('Logged in (demo). Balance set to ₦500');
+    });
+    document.getElementById('toRegister').addEventListener('click', ()=>{ alert('Register (demo)'); });
+
+    document.getElementById('loadMore').addEventListener('click', ()=>{ featuredMatches.push({id:'m'+(featuredMatches.length+1),teams:'New Team vs New Team',time:'Soon',odds:[1.9,3.2,4.5]}); renderFeatured(); renderMatches(); });
+
+    document.getElementById('placeBet').addEventListener('click', ()=>{
+      const stake = Number(document.getElementById('stake').value || 0); if(state.slip.length===0) return alert('No selections'); if(!stake || stake<=0) return alert('Enter stake');
+      if(state.balance < stake){ if(!confirm('Insufficient balance. Continue as demo?')) return; }
+      state.balance = Math.max(0, state.balance - stake); updateBalance(); alert('Bet placed (demo). Good luck!'); state.slip=[]; document.getElementById('stake').value=''; renderSlip();
+    });
+
+    // market modal
+    document.getElementById('closeMarket').addEventListener('click', ()=>document.getElementById('marketModal').style.display='none');
+    // search
+    document.getElementById('searchBtn').addEventListener('click', ()=>{ const q=document.getElementById('searchInput').value.trim().toLowerCase(); if(!q) return renderMatches(); const filtered = featuredMatches.filter(m=>m.teams.toLowerCase().includes(q)); document.getElementById('matchCards').innerHTML=''; filtered.forEach(m=>{ const card=document.createElement('div'); card.className='match-card'; card.innerHTML = `<div class="teams">${m.teams}</div><div class="meta">${m.time}</div><div class="odds">${m.odds.map(o=>`<div class="odd">${o.toFixed(2)}</div>`).join('')}</div>`; document.getElementById('matchCards').appendChild(card); }); document.querySelectorAll('.odd').forEach(x=>x.addEventListener('click', oddClicked)); });
+    // deposit modal close
+    document.getElementById('closeDeposit').addEventListener('click', ()=>document.getElementById('depositModal').style.display='none');
+  }
+
+  function openGame(name){ alert('Open game (demo): '+name); }
+
+  // close modals on ESC
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal-back').forEach(m=>m.style.display='none'); }});
+</script>
+</body>
+</html>
